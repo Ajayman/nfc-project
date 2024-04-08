@@ -1,21 +1,22 @@
-'use client'
-import {React, useState} from 'react'
-import {useParams} from 'next/navigation'
 import { Box, IconButton, Stack } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
-// import Carousel from 'react-multi-carousel';
-import {products as productItems} from '../../products'
 import "react-multi-carousel/lib/styles.css"
 
+async function getProductById(productId: string){
+    const res = await fetch(`http://localhost:3000/api/products/${productId}`,{
+        method: "GET"
+    })
+    return res.json();
+}
 
-export default function ProductDetail() {
-    const params = useParams()
-    const [items, setItems] = useState(productItems);
-    const result = items.filter((item)=> item.id == params.productId)
+export default async function ProductDetail({params}: any) {
+    const {product} = await getProductById(params.productId);
+    const [item]=product
+    console.log(item);
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -43,7 +44,7 @@ export default function ProductDetail() {
                 </Grid>
                 <Grid xs={4} display="flex" justifyContent="center">
                     <Typography variant="subtitle1" component="div">
-                        {result[0].name}
+                        {item.name}
                     </Typography>
                 </Grid>
                 <Grid xs={4} display="flex" justifyContent="right">
@@ -53,10 +54,10 @@ export default function ProductDetail() {
                 </Grid>
             </Grid>
             <Typography variant='h6'>
-                {result[0].title}
+                {item.title}
             </Typography>
             <Typography variant='subtitle1'>
-                {result[0].description}
+                {item.description}
             </Typography>
             <Stack spacing={2} direction="row" justifyContent='center'>
                 <Button variant="outlined">S</Button>
@@ -65,9 +66,58 @@ export default function ProductDetail() {
             </Stack>
             <Stack spacing={4} direction='row' justifyContent='center'>
                 <Button variant='contained'>Add To Cart</Button>
-                <Typography>Nrs. {result[0].price}</Typography>
+                <Typography>Nrs. {item.price}</Typography>
             </Stack>
         </Box >
     )
 }
 
+// "use client";
+
+// import { useEffect, useState } from "react";
+
+// type Product = {
+//     id?: Number,
+//     name?: String,
+//     imageSrc?: String,
+//     price?: Number,
+//     title?: String,
+//     description?: String
+// }
+
+// export default function ProductDetail({params}:any){
+//     const [product, setProduct] = useState<Product | null>(null);
+//     const [loading, setLoading] = useState(false);
+//     const getProductById = async()=> {
+//         try{
+//             setLoading(true);
+//             const response = await fetch(
+//                 `http://localhost:3000/api/products/${params.productId}`,
+//                 {
+//                     method: 'GET'
+//                 }
+//             );
+//             debugger;
+//             if(response){
+//                 const {product} = await response.json();
+//                 if(product) setProduct(product)
+//             }
+//         }catch(error){
+//             console.log(error)
+//         }finally{
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(()=> {
+//         getProductById()
+//     }, []);
+
+//     return(
+//         <main>
+//             {loading && <div>loading</div>}
+//             {!loading &&<div>{product && <h1>{product.title}</h1>}
+//             {product && <h1>{product.description}</h1>}</div>}
+//         </main>
+//     )
+// }
