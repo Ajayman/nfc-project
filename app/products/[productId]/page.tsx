@@ -7,16 +7,15 @@ import Button from '@mui/material/Button';
 import "react-multi-carousel/lib/styles.css"
 
 async function getProductById(productId: string){
-    const res = await fetch(`http://localhost:3000/api/products/${productId}`,{
-        method: "GET"
-    })
+    const res = await fetch(`http://localhost:3000/api/products/${productId}`)
+    if(!res.ok){
+        throw new Error('Failed to fetch data');
+    }
     return res.json();
 }
 
 export default async function ProductDetail({params}: any) {
     const {product} = await getProductById(params.productId);
-    const [item]=product
-    console.log(item);
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -44,7 +43,7 @@ export default async function ProductDetail({params}: any) {
                 </Grid>
                 <Grid xs={4} display="flex" justifyContent="center">
                     <Typography variant="subtitle1" component="div">
-                        {item.name}
+                        {product.name}
                     </Typography>
                 </Grid>
                 <Grid xs={4} display="flex" justifyContent="right">
@@ -54,10 +53,10 @@ export default async function ProductDetail({params}: any) {
                 </Grid>
             </Grid>
             <Typography variant='h6'>
-                {item.title}
+                {product.title}
             </Typography>
             <Typography variant='subtitle1'>
-                {item.description}
+                {product.description}
             </Typography>
             <Stack spacing={2} direction="row" justifyContent='center'>
                 <Button variant="outlined">S</Button>
@@ -66,7 +65,7 @@ export default async function ProductDetail({params}: any) {
             </Stack>
             <Stack spacing={4} direction='row' justifyContent='center'>
                 <Button variant='contained'>Add To Cart</Button>
-                <Typography>Nrs. {item.price}</Typography>
+                <Typography>Nrs. {product.price}</Typography>
             </Stack>
         </Box >
     )

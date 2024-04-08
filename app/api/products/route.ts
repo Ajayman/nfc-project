@@ -1,7 +1,7 @@
 import {products} from "app/products"
 import { NextResponse } from "next/server"
 
-export async function GET(){
+export async function GET(request: Request){
     return NextResponse.json(products)
 }
 
