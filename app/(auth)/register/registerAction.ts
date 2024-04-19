@@ -8,7 +8,7 @@ export default async function CreateUserAction(currentState:any, formData: FormD
 
 
     //send to our api route
-    const res = await fetch(process.env.ROOT_URL + "/api/signup", {
+    const res = await fetch(process.env.NEXT_PUBLIC_ROOT_URL + "/api/signup", {
         method: "POST",
         headers: {
             "Content-Type" : "application/json",

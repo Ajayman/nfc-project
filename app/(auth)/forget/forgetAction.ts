@@ -6,7 +6,7 @@ export default async function ForgetPassword(currentState:any, formData: FormDat
     const email = formData.get("email");
 
     //send to our api route
-    const res = await fetch(process.env.ROOT_URL + "/api/forgetPassword", {
+    const res = await fetch(process.env.NEXT_PUBLIC_ROOT_URL + "/api/forgetPassword", {
         method: "POST",
         headers: {
             "Content-Type" : "application/json",

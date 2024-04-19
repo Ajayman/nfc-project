@@ -9,7 +9,7 @@ export default async function loginUserAction(currentState:any, formData: FormDa
 
 
     //send to our api route
-    const res = await fetch(process.env.ROOT_URL + "/api/login", {
+    const res = await fetch(process.env.NEXT_PUBLIC_ROOT_URL + "/api/login", {
         method: "POST",
         headers: {
             "Content-Type" : "application/json",
