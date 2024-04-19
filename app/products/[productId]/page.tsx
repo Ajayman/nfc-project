@@ -71,6 +71,40 @@ export default async function ProductDetail({params}: any) {
     )
 }
 
+
+
+//------------------------params code on client side and server side--------------------------
+// "use client"
+// import { useParams } from "next/navigation"
+
+// export default function ProductPage(){
+//     const params = useParams();
+//     console.log(params);
+//     return;
+// }
+
+// "use client"
+
+// import { useSearchParams } from "next/navigation"
+
+// export default function ProductPage(){
+//     const params = useSearchParams();
+//     const newParams = params?.get('name')
+//     console.log(newParams)
+// }
+
+
+// export default function ProductPage({params}: any){
+//     return <main>{params.productId}</main>
+// }
+
+// export default function ProductPage({params, searchParams}: any){
+//     console.log(searchParams);
+//     return <main>{searchParams.name}</main>
+// }
+
+//------------------------------------------------------------------------------------------------
+
 // "use client";
 
 // import { useEffect, useState } from "react";

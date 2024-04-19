@@ -19,11 +19,15 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Paper from '@mui/material/Paper'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-import {  Drawer } from '@mui/material'
+import { Drawer } from '@mui/material'
+import { FormEvent } from 'react'
+import SearchProducts from '../components/SearchProducts'
+import Search from '../components/Search'
+
 
 const settings = ['Profile', 'Account', 'Sign Up', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({children}) {
   const [navMenu, setSetNavMenu] = React.useState(pagesMenu)
   const router = useRouter()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -55,6 +59,7 @@ function ResponsiveAppBar() {
       <h2>This is a drawer example</h2>
     </Box>
   )
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -146,7 +151,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            <Paper
+            {/* <Paper
               component='form'
               elevation={3}
               sx={{ p: '2px 4px', display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}
@@ -159,15 +164,20 @@ function ResponsiveAppBar() {
               <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                 <SearchIcon />
               </IconButton>
-            </Paper>
-            <PersonOutlineIcon />
+            </Paper> */}
+           <div>
+                <Search />
+            </div>
+           
+            {children}
+
             <IconButton aria-label='shopping cart' onClick={toggleDrawer(true)} >
               <ShoppingCartOutlinedIcon />
             </IconButton>
           </Box>
         </Toolbar>
         <Drawer open={open} anchor='right' onClose={toggleDrawer(false)}>
-            {DrawerList}
+          {DrawerList}
         </Drawer>
       </Container>
     </AppBar>

@@ -21,6 +21,17 @@ import 'react-multi-carousel/lib/styles.css'
 
 export default async function Home() {
   const {products} = await getProducts();
+  async function searchProducts(data: FormData){
+    'use server';
+    const product = data.get('product');
+
+    const response = await fetch('http://localhost:3000/api/searchProduct')
+    if(response.ok){
+      const items = await response.json()
+      console.log(items);
+    }
+  }
+  const onSubmit = (data) => console.log(data);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -32,20 +43,27 @@ export default async function Home() {
           <Image src={titleImage} alt='Title Image' width={150} />
         </Grid>
       </Grid>
-      <Paper
+      {/* <form method='get'>
+        <input type="text" name='productName' />
+        <button type='submit' >Search</button>
+      </form> */}
+      {/* <Paper
         component='form'
+        action={searchProducts}
         elevation={3}
         sx={{ p: '2px 4px', display: {xs: 'flex', md: 'none'}, alignItems: 'center' }}
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Search Anything Here"
-          inputProps={{ 'aria-label': 'search google maps' }}
+          inputProps={{ 'aria-label': 'search Products' }}
+          name='productId'
+          value={productId}
         />
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
-      </Paper>
+      </Paper> */}
       <Grid container>
         <Grid xs={9}>
           <Typography variant='h6'>Categories</Typography>
@@ -64,7 +82,7 @@ export default async function Home() {
           < Grid xs={6} sm={4} md={3} key={item.id}>
             <Link href={`/products/${item.id}`} key={item.id}>
 
-              <Product title={item.title} imageSrc={item.imageSrc} price={item.price} />
+              <Product id={item.id} title={item.title} imageSrc={item.imageSrc} price={item.price} />
             </Link>
           </Grid>
         ))}
