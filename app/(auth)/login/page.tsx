@@ -58,7 +58,7 @@
 import { useRouter } from "next/navigation";
 import login from "./loginAction"
 import { useFormState } from "react-dom"
-export default function loginPage() {
+export default function LoginPage() {
   const [error, formAction] = useFormState(login, undefined)
   const router = useRouter();
   function handleForget(e){
