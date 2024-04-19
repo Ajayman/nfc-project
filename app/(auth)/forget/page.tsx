@@ -3,7 +3,7 @@
 "use client"
 import forget from "./forgetAction"
 import { useFormState } from "react-dom"
-export default function loginPage() {
+export default function LoginPage() {
   const [error, formAction] = useFormState(forget, undefined)
   return (
     <div>
