@@ -12,7 +12,7 @@ import Product from './components/product'
 import 'react-multi-carousel/lib/styles.css'
 
  async function getProducts(){
-  const res = await fetch('/api/products')
+  const res = await fetch(process.env.ROOT_URL+'/api/products')
   if(!res.ok){
     throw new Error('Failed to fetch data');
   }
@@ -25,7 +25,7 @@ export default async function Home() {
     'use server';
     const product = data.get('product');
 
-    const response = await fetch('/api/searchProduct')
+    const response = await fetch(process.env.ROOT_URL+'/api/searchProduct')
     if(response.ok){
       const items = await response.json()
       console.log(items);
