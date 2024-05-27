@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs"
 export async function POST(request: Request){
     // read data of req body
     const body = await request.json();
-    const {email, password} = body;
+    const {firstName,lastName,email,age,password} = body;
 
 
     // validate data
@@ -23,7 +23,10 @@ export async function POST(request: Request){
     // create a user in db
     await prisma.user.create({
         data: {
-            email, 
+            firstName,
+            lastName,
+            email,
+            age, 
             password: hash
         }
     })

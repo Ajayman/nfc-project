@@ -10,18 +10,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useRouter } from 'next/navigation'
-import Link from 'next/link';
+import Link from '@mui/material/Link';
 import { appBarMenu as pagesMenu } from '../products';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import Paper from '@mui/material/Paper'
-import InputBase from '@mui/material/InputBase'
-import SearchIcon from '@mui/icons-material/Search'
 import { Drawer } from '@mui/material'
-import { FormEvent } from 'react'
-import SearchProducts from '../components/SearchProducts'
 import Search from '../components/Search'
 
 
@@ -56,7 +49,7 @@ function ResponsiveAppBar({children}) {
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <h2>This is a drawer example</h2>
+      <Typography variant='h5'>No item on cart yet</Typography>
     </Box>
   )
 
@@ -64,7 +57,7 @@ function ResponsiveAppBar({children}) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <img src="Nina-logo.jpg" width="60px" alt="nina-logo" />
           <Typography
             variant="h6"
             noWrap
@@ -80,7 +73,7 @@ function ResponsiveAppBar({children}) {
               textDecoration: 'none',
             }}
           >
-            <Link href="/">NFC</Link>
+            <Link href="/" underline="none" color="white" sx={{ml: 2}}>NFC</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -119,7 +112,6 @@ function ResponsiveAppBar({children}) {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -150,25 +142,8 @@ function ResponsiveAppBar({children}) {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            {/* <Paper
-              component='form'
-              elevation={3}
-              sx={{ p: '2px 4px', display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search Anything Here"
-                inputProps={{ 'aria-label': 'search google maps' }}
-              />
-              <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper> */}
-           <div>
-                <Search />
-            </div>
-           
+          <Box sx={{ flexGrow: 0, display:'flex', alignItems: 'center' }}>
+                <Search/>         
             {children}
 
             <IconButton aria-label='shopping cart' onClick={toggleDrawer(true)} >

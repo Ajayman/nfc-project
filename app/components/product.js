@@ -9,7 +9,6 @@ import Link from 'next/link';
 
 export default function ImgMediaCard({ id, imageSrc, title, price }) {
   return (
-
     <Card>
       <CardMedia
         component="img"
@@ -21,9 +20,9 @@ export default function ImgMediaCard({ id, imageSrc, title, price }) {
         <Button variant='outlined' size="small">Add to cart</Button>
       </CardActions>
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
-          {title}
-        </Typography>
+          <Link href={`/products/${id}`}>
+            {title}
+          </Link>
         <Typography gutterBottom variant="subtitle1" component="div">
           Nprs.{price}
         </Typography>

@@ -10,20 +10,20 @@ export async function middleware(request: NextRequest) {
   if (!cookie) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
-  console.log(process.env.JWT_TOKEN)
+  return NextResponse.next();
   //validate it
-  const secret = new TextEncoder().encode(process.env.JWT_TOKEN)
-  const jwt = cookie.value;
-  if(!jwt){
-    return NextResponse.redirect(new URL('/', request.url))
-  }else{
-    const { payload } = await jose.jwtVerify(jwt, secret,{})
-    console.log(payload)
-  }
+  // const secret = new TextEncoder().encode(process.env.JWT_TOKEN)
+  // const jwt = cookie.value;
+  // if(!jwt){
+  //   return NextResponse.redirect(new URL('/', request.url))
+  // }else{
+  //   const { payload } = await jose.jwtVerify(jwt, secret,{})
+  //   console.log(payload)
+  // }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/about/:path*',
+  matcher: ['/admin/:path*'],
 }
 

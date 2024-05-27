@@ -19,8 +19,8 @@ export const products = [
         price: 2000,
         title: "Colorful Baby Frock",
         description: "A vibrant array of hues adorn the playful baby frock, a kaleidoscope of pastels and brights. Soft fabrics embrace tender skin, while delicate ruffles dance with every movement. From sunny yellows to rosy pinks, it's a canvas of joyous color, perfect for little ones to explore the world in style and comfort.",
-    },{
-        id:2,
+    }, {
+        id: 2,
         name: "Sequence Net Lehenga",
         imageSrc: "/products/2.jpeg",
         price: 9000,
@@ -28,7 +28,7 @@ export const products = [
         description: "Intricate sequins cascade like shimmering stars on the net lehenga, a vision of opulence and grace. Each sequin tells a story, twinkling with every step. Layers of net swirl gracefully, embodying elegance in motion. A timeless ensemble, it captivates hearts with its enchanting allure, weaving dreams of splendor.",
     },
     {
-        id:3,
+        id: 3,
         name: "Heavy Pink Lehenga",
         imageSrc: "/products/3.jpeg",
         price: 12000,
@@ -36,7 +36,7 @@ export const products = [
         description: "A heavy pink lehenga, resplendent in its grandeur, exudes timeless elegance. Intricately embroidered with golden threads, it tells tales of tradition and grace. Layers of luxurious fabric cascade gracefully, draping the wearer in regal splendor. Adorned with jewels, it is a masterpiece of opulence, commanding attention with its majestic allure.",
     },
     {
-        id:4,
+        id: 4,
         name: "Velvet Gown",
         imageSrc: "/products/4.jpeg",
         price: 6000,
@@ -45,4 +45,43 @@ export const products = [
     }
 ]
 
-export const appBarMenu = [{id:1,page:'Products', pageUrl:'/products'}, {id:2,page:'About', pageUrl: '/about'}, {id:3,page:'Contact Us', pageUrl: '/contact'}];
+export const about = [
+    {
+        id: 1,
+        name: "Choice",
+        imageSrc: "choice.svg",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    },
+    {
+        id: 2,
+        name: "Fit",
+        imageSrc: "perfect fit.jpg",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    },
+    {
+        id: 3,
+        name: "Harmony",
+        imageSrc: "harmony.svg",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    },
+    {
+        id: 4,
+        name: "Budget",
+        imageSrc: "budget.jpeg",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    },
+    {
+        id: 5,
+        name: "Style",
+        imageSrc: "style.png",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    },
+    {
+        id: 6,
+        name: "Time Frame",
+        imageSrc: "ontime.png",
+        subtitle: "hapter too parties its letters nor. Cheerful but whatever ladyship disposed yet judgment. Lasted answer oppose to ye "
+    }
+]
+
+export const appBarMenu = [{ id: 1, page: 'Products', pageUrl: '/products' }, { id: 2, page: 'About', pageUrl: '/about' }, { id: 3, page: 'Contact Us', pageUrl: '/contact' }];
