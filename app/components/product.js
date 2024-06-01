@@ -7,14 +7,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 
-export default function ImgMediaCard({ id, imageSrc, title, price }) {
+export default function ImgMediaCard({ id, imageUrl, title, price }) {
   return (
     <Card>
       <CardMedia
         component="img"
         alt="green iguana"
         height="200"
-        src={imageSrc}
+        src={imageUrl}
       />
       <CardActions sx={{ justifyContent: "center" }}>
         <Button variant='outlined' size="small">Add to cart</Button>

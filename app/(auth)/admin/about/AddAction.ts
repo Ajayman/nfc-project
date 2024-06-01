@@ -1,14 +1,12 @@
 "use server"
-import { schema } from "./ProductSchema"
+import { schema } from "./AboutSchema"
 import {redirect} from "next/navigation"
 export type FormState = {
     message: string
 }
-export default async function AddAction(imageUrl, data: FormData): Promise<FormState>{
+export default async function AddAction(designerImageUrl, data: FormData): Promise<FormState>{
     const formData = Object.fromEntries(data) //converts into regular javascript object by Object.fromEntries
-    console.log(formData);
-    const mergeFormData = {...formData, imageUrl:imageUrl}
-    console.log(mergeFormData);
+    const mergeFormData = {...formData, designerImageUrl}
     const parsed = schema.safeParse(mergeFormData) //validation happens even in the server too
     if(!parsed.success){
         return{
@@ -19,7 +17,7 @@ export default async function AddAction(imageUrl, data: FormData): Promise<FormS
 
 
     //send to our api route
-    const res = await fetch(process.env.ROOT_URL + "/api/admin/product",{
+    const res = await fetch(process.env.ROOT_URL + "/api/admin/about",{
         method: "Post",
         headers:{
             "Content-Type" : "application/json", 

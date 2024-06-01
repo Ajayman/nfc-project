@@ -22,7 +22,6 @@ export async function POST(request: Request){
             email,
         }
     })
-    console.log(user)
     if(!user){
         return Response.json(
             {

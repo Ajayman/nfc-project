@@ -1,9 +1,13 @@
 import * as React from 'react';
+import "@uploadthing/react/styles.css"
 import ResponsiveAppBar from "./components/appbar"
 import LabelBottomNavigation from "./components/bottomnav";
 import Footer from "./components/footer"
-import UserIcon from "./components/userIcon"
-import InstallBootstrap from "app/components/InstallBootstrap"
+// import UserIcon from "./components/userIcon"
+import { cookies } from "next/headers";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import IconButton from '@mui/material/IconButton';
 export const metadata = {
   name: "viewport",
   content: "initial-scale=1, width=device-width, height=300",
@@ -12,19 +16,31 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return (
+  const isLoggedIn = cookies().get("Authorization");
+  return(
     <html lang="en">
       <body >
         <React.Suspense>
           <ResponsiveAppBar >
-            <UserIcon />
+            <div>
+              {
+                !isLoggedIn ?
+                  <IconButton aria-label='account' href="/login">
+                    <PermIdentityIcon />
+                  </IconButton>
+                  :
+                  <IconButton aria-label='profile' href="/profile">
+                    <AccountCircleIcon />
+                  </IconButton>
+              }
+            </div>
           </ResponsiveAppBar>
         </React.Suspense>
         {children}
         <Footer />
         <LabelBottomNavigation />
       </body>
-      <script src="http://localhost:8097"></script>
+      {/* <script src="http://localhost:8097"></script> */}
     </html>
   );
 }

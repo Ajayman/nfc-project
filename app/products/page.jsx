@@ -1,28 +1,22 @@
 // import { useState, useEffect } from 'react'
+'use client'
 import Grid from '@mui/material/Grid';
 import Search from 'app/components/Search';
 import Product from '../components/product'
 import SearchProducts from 'app/components/SearchProducts'
-async function getProducts() {
-    const res = await fetch(process.env.ROOT_URL + '/api/products')
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
-    }
-    return res.json();
-  }
+import { useEffect, useState } from 'react'
+import {readItem} from 'app/actions/readAction'
 
-export default async function Products() {
-    const { products } = await getProducts();
-    console.log('this is item '+ products);
-    // const [products, setProducts] = useState([]);
-    // useEffect(() => {
-    //     const getProducts = async () => {
-    //         const response = await fetch('api/products');
-    //         const products = await response.json();
-    //         setProducts(products)
-    //     }
-    //     getProducts();
-    // }, [])
+export default function Products() {
+    const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const  getAllItem = async()=> {
+     const itemData = await readItem()
+     console.log(itemData);
+     setProducts(itemData);
+    };
+    getAllItem()
+  }, []);
     return (
         <main>
             {/* <Search getSearchResults={(results) => setProducts(results)} /> */}
@@ -30,7 +24,7 @@ export default async function Products() {
             <Grid sx={{mt:4}} container spacing={2}>
                 {products.map((item, key) => (
                     <Grid item xs={6} sm={4} md={3} key={item.id}>
-                        <Product id={item.id} title={item.title} imageSrc={item.imageSrc} price={item.price} />
+                        <Product id={item.id} title={item.title} imageUrl={item.imageUrl} price={item.price} />
                     </Grid>
                 ))}
             </Grid>

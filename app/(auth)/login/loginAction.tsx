@@ -17,7 +17,6 @@ export default async function loginUserAction(currentState:any, formData: FormDa
         body: JSON.stringify({email, password})
     })
     const json = await res.json();
-    console.log(json)
     cookies().set("Authorization", json.token,{
         httpOnly: true,
         expires: Date.now() + 24 * 60 * 60 * 1000 * 3,

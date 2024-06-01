@@ -1,3 +1,4 @@
+'use client'
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import titleImage from '../public/title-image.svg'
@@ -6,29 +7,19 @@ import Link from '@mui/material/Link'
 import CategoryCarousel from './components/categoryCarousel'
 import Product from './components/product'
 import 'react-multi-carousel/lib/styles.css'
+import { useEffect, useState } from 'react'
+import {readItem} from 'app/actions/readAction'
 
-async function getProducts() {
-  const res = await fetch(process.env.ROOT_URL + '/api/products')
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
-}
-
-export default async function Home() {
-  const { products } = await getProducts();
-  console.log(products);
-  async function searchProducts(data: FormData) {
-    'use server';
-    const product = data.get('product');
-
-    const response = await fetch(process.env.ROOT_URL + '/api/searchProduct')
-    if (response.ok) {
-      const items = await response.json()
-      console.log(items);
-    }
-  }
-  const onSubmit = (data) => console.log(data);
+export default function Home() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const  getAllItem = async()=> {
+     const itemData = await readItem()
+     console.log(itemData);
+     setProducts(itemData);
+    };
+    getAllItem()
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -52,9 +43,9 @@ export default async function Home() {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        {products.map((item, key) => (
+        { products && products.map((item, key) => (
           <Grid item xs={6} sm={4} md={3} key={item.id}>
-            <Product id={item.id} title={item.title} imageSrc={item.imageSrc} price={item.price} />
+            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
           </Grid>
         ))}
       </Grid>
