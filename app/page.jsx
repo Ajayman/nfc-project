@@ -12,14 +12,21 @@ import {readItem} from 'app/actions/readAction'
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [newProducts, setNewProducts] = useState([]);
+  const [trendingProduct, setTrendingProducts] = useState([]);
+  const [oldProduct, setOldProducts] = useState([]);
   useEffect(() => {
     const  getAllItem = async()=> {
      const itemData = await readItem()
-     console.log(itemData);
      setProducts(itemData);
+     setNewProducts(itemData.filter((item)=> item.productType == "New"))
+     setTrendingProducts(itemData.filter((item)=> item.productType == "Trending"))
+     setOldProducts(itemData.filter((item)=> item.productType == "Old Stock"))
     };
     getAllItem()
   }, []);
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -37,13 +44,49 @@ export default function Home() {
         <Link variant='h5' href='/category' color='black' underline='hover'>Categories</Link>
       </Grid>
       <CategoryCarousel />
+      {/* <Grid container sx={{ mt: 3, mb: 2 }}>
+        <Grid item sx={{ pb: 2 }}>
+          <Typography variant='h5'>All Product</Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        { products && products.map((item, key) => (
+          <Grid item xs={6} sm={4} md={3} key={item.id}>
+            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+          </Grid>
+        ))}
+      </Grid> */}
       <Grid container sx={{ mt: 3, mb: 2 }}>
         <Grid item sx={{ pb: 2 }}>
           <Typography variant='h5'>New Items</Typography>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        { products && products.map((item, key) => (
+        { newProducts && newProducts.map((item, key) => (
+          <Grid item xs={6} sm={4} md={3} key={item.id}>
+            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container sx={{ mt: 3, mb: 2 }}>
+        <Grid item sx={{ pb: 2 }}>
+          <Typography variant='h5'>Trending Products</Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        { trendingProduct && trendingProduct.map((item, key) => (
+          <Grid item xs={6} sm={4} md={3} key={item.id}>
+            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container sx={{ mt: 3, mb: 2 }}>
+        <Grid item sx={{ pb: 2 }}>
+          <Typography variant='h5'>Old Products</Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        { oldProduct && oldProduct.map((item, key) => (
           <Grid item xs={6} sm={4} md={3} key={item.id}>
             <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
           </Grid>
