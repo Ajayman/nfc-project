@@ -1,13 +1,14 @@
 "use client"
+import { useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import Link from '@mui/material/Link'
 import Image from 'next/image'
-import blouse from '../../public/categories/blouse.svg'
-import babyGown from '../../public/categories/babygown.svg'
-import gown from '../../public/categories/gown.svg'
-import secondGown from '../../public/categories/gown2.svg'
-import lehenga from '../../public/categories/lehenga.svg'
-export default function CategoryCarousel(){
+
+export default function CategoryCarousel({categories, sendCategoryToParent}){
+  const [data, setData] = useState("")
+  function handleCarousel(category){
+    sendCategoryToParent(category)
+  }
     const responsive = {
         superLargeDesktop: {
           // the naming can be any, depends on you.
@@ -27,28 +28,6 @@ export default function CategoryCarousel(){
           items: 3
         }
       };
-    const categoryItems = [
-        {
-          name: "Blouse",
-          imageSrc: blouse
-        },
-        {
-          name: "Gown",
-          imageSrc:  gown 
-        },
-        {
-          name: "Long Gown",
-          imageSrc:  secondGown 
-        },
-        {
-          name: "Lehenga",
-          imageSrc:  lehenga 
-        },
-        {
-          name: "Baby Gown",
-          imageSrc:  babyGown 
-        }
-      ]
     return (
         <Carousel
         swipeable={false}
@@ -66,9 +45,18 @@ export default function CategoryCarousel(){
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        {categoryItems.map((category)=>(
-          <Link href={`/products`} key={category.name}>
-            <Image src={category.imageSrc} alt={category.name} width={100} height={100}/>
+        {categories.map((category)=>(
+          <Link sx={{
+            display: "flex", 
+            flexDirection:"column", 
+            alignItems: "center", 
+            textDecoration: "none"}}  
+            onClick={()=>{
+              handleCarousel(category.name)
+            }}
+            key={category.name}>
+            <Image src={category.imageUrl} alt={category.name} width={100} height={100}/>
+            <button>{category.name}</button>
           </Link>
           ))}
       </Carousel>

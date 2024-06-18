@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { UploadButton } from "../utils/uploadthing";
 import { useState } from "react"
-import { imageRemove } from "app/(auth)/admin/add/ImageRemove";
+import { imageRemove } from "app/(auth)/admin/product/add/ImageRemove";
 
 
 export default function ImageUpload({sendDataToParent}) {

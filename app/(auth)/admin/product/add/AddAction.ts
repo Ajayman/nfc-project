@@ -1,6 +1,7 @@
 "use server"
 import { schema } from "./ProductSchema"
 import {redirect} from "next/navigation"
+import { revalidatePath } from 'next/cache'
 export type FormState = {
     message: string
 }
@@ -19,20 +20,24 @@ export default async function AddAction(imageUrl, data: FormData): Promise<FormS
 
 
     //send to our api route
-    const res = await fetch(process.env.ROOT_URL + "/api/admin/product",{
-        method: "Post",
-        headers:{
-            "Content-Type" : "application/json", 
-        },
-        body: JSON.stringify(mergeFormData)
-    })
-    console.log(res);
-    const json = await res.json()
-
-    // // Redirect to login success page
-    if(res.ok){
-        return {message: "Submission successful"}       
-    }else{
-        return json.error
+    try{
+        const res = await fetch(process.env.ROOT_URL + "/api/admin/product",{
+            method: "Post",
+            headers:{
+                "Content-Type" : "application/json", 
+            },
+            body: JSON.stringify(mergeFormData)
+        })
+        const json = await res.json()
+    }catch(error){
+        return error
     }
+    revalidatePath(`/admin/add`); // Update cached posts
+    redirect(`/products/`);
+    // // Redirect to login success page
+    // if(res.ok){
+    //     return {message: "Submission successful"}       
+    // }else{
+    //     return json.error
+    // }
 }

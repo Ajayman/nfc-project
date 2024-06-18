@@ -5,5 +5,7 @@ export const schema = z.object({
     imageUrl: z.string(),
     price: z.string(),
     title: z.string().min(5),
-    description:z.string().min(5)
+    description:z.string().min(5),
+    category: z.string(),
+    productType: z.string()
 })

@@ -1,4 +1,5 @@
 'use server';
+import {type NextRequest} from 'next/server'
 import prisma from "app/lib/prisma"
 
 export const readItem = async()=>{
@@ -16,5 +17,14 @@ export const readAbout = async()=> {
         return aboutData;
     }catch(error){
         console.log(error);
+    }
+}
+
+export const readCategory = async()=> {
+    try{
+        const categoryData = await prisma.category.findMany()
+        return categoryData;
+    }catch(error){
+        return error
     }
 }
