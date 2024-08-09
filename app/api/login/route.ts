@@ -51,5 +51,5 @@ export async function POST(request: Request){
         .sign(secret)
 
     //Respond with it
-    return Response.json({token:jwt})
+    return Response.json({token:jwt, user})
 }

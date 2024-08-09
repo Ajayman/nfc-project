@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -5,9 +6,18 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
+import {useRouter} from 'next/navigation';
+import CartAdd from 'app/actions/cartAction';
 
-export default function ImgMediaCard({ id, imageUrl, title, price }) {
+export default function ImgMediaCard({ id, name, imageUrl, title, price }) {
+  const router = useRouter();
+  function handleDetail(){
+    router.push(`/products/${id}`)
+  }
+  function handleCart(){
+    CartAdd(id, qty=1,)
+    
+  }
   return (
     <Card>
       <CardMedia
@@ -17,12 +27,12 @@ export default function ImgMediaCard({ id, imageUrl, title, price }) {
         src={imageUrl}
       />
       <CardActions sx={{ justifyContent: "center" }}>
-        <Button variant='outlined' size="small">Add to cart</Button>
+        <Button variant='outlined' size="small" onClick={()=> handleCart()}>Add to cart</Button>
       </CardActions>
       <CardContent>
-          <Link href={`/products/${id}`}>
+          <Button onClick={()=> handleDetail()}>
             {title}
-          </Link>
+          </Button>
         <Typography gutterBottom variant="subtitle1" component="div">
           Nprs.{price}
         </Typography>

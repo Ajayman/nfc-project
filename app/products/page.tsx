@@ -13,17 +13,14 @@ export default function Products() {
         };
         getAllItem()
     }, []);
-    // const res = await fetch(process.env.ROOT_URL + "/api/searchProduct");
-    // console.log(res);
-    // const products = await res.json();
-    // console.log(products)
     return (
         <Grid sx={{ mt: 4 }} container spacing={2}>
             {products.map((item, key) => (
                 <Grid item xs={6} sm={4} md={3} key={item.id}>
-                    <Product id={item.id} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+                    <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
                 </Grid>
             ))}
         </Grid>
+
     )
 }

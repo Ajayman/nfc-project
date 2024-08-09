@@ -8,7 +8,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 import login from "./loginAction"
-import { Span } from 'next/dist/trace';
+import {schema} from "./loginSchema"
 // import {authenticate} from 'app/lib/actions'
 
 type FormData = {
@@ -17,10 +17,10 @@ type FormData = {
 }
 
 export default function LoginPage() {
-  const schema: ZodType<FormData> = z.object({
-    email: z.string().email(),
-    password: z.string()
-  })
+  // const schema: ZodType<FormData> = z.object({
+  //   email: z.string().email(),
+  //   password: z.string()
+  // })
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
   const submitData = (data: FormData) => {
     console.log("IT worked", data)

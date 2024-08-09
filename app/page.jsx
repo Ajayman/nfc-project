@@ -39,6 +39,7 @@ export default function Home() {
   const handleCategoryFromChild = (data)=>{
     router.push(`products/category?name=${data}`);   
   }
+  console.log(products);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>

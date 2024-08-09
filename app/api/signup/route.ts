@@ -27,7 +27,10 @@ export async function POST(request: Request){
             lastName,
             email,
             age, 
-            password: hash
+            password: hash,
+            cart: {
+                create:{}
+            }
         }
     })
     // return something

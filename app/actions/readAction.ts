@@ -1,7 +1,16 @@
 'use server';
-import {type NextRequest} from 'next/server'
-import prisma from "app/lib/prisma"
 
+import prisma from "app/lib/prisma"
+// type productData = {
+//     id: string;
+//     name: string;
+//     imageUrl: string;
+//     price: string;
+//     title: string;
+//     description: string;
+//     category: string;
+//     productType: string;
+// }
 export const readItem = async()=>{
     try {
         const productData = await prisma.product.findMany()

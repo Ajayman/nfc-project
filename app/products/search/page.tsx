@@ -6,17 +6,7 @@ import Product from '../../components/product'
 import { readItem } from 'app/actions/searchAction';
 
 export default async function SearchProducts({ searchParams }) {
-    // const [products, setProducts] = useState([]);
-    // useEffect(() => {
-    //     const getAllItem = async () => {
-    //         const itemData = await readItem();
-    //         setProducts(itemData);
-    //     };
-    //     getAllItem()
-    // }, []);
-    console.log(searchParams.query)
     const res = await fetch(process.env.ROOT_URL + `/api/searchProduct?query=${searchParams.query}`);
-    console.log(res);
     const result = await res.json();
     const products = result.data;
     return (
@@ -24,7 +14,7 @@ export default async function SearchProducts({ searchParams }) {
             <Suspense fallback={"Loading...."}>
                 {products.map((item, key) => (
                     <Grid item xs={6} sm={4} md={3} key={item.id}>
-                        <Product id={item.id} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+                        <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
                     </Grid>
                 ))}
             </Suspense>
