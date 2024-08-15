@@ -17,7 +17,7 @@ import { appBarMenu as pagesMenu } from '../products';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Drawer } from '@mui/material'
 import Search from '../components/Search'
-import { getCookie } from 'app/actions/getCookieAction';
+import { getCookie } from 'app/actions1/getCookieAction';
 import DrawerList from './drawer';
 import CartItem from './cartItem';
 import {useContext} from "react"

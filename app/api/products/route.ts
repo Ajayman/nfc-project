@@ -14,10 +14,3 @@ export async function GET(request: Request){
     
     
 }
-
-// export async function POST(request: Request){
-//     const data = await request.json()
-//     return NextResponse.json({
-//         data
-//     })
-// }

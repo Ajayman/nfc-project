@@ -6,8 +6,8 @@ import Link from "@mui/material/Link";
 import Product from 'app/components/product'
 import 'react-multi-carousel/lib/styles.css'
 import CategoryCarousel from "app/components/categoryCarousel";
-import { readItem } from 'app/actions/readAction'
-import { readCategory } from 'app/actions/readAction'
+import { readItem } from 'app/actions1/readAction'
+import { readCategory } from 'app/actions1/readAction'
 
 export default function Category() {
     const [filterProduct, setFilterProduct] = useState([])

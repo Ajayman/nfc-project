@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.iterable",
+      "esnext",
+      "ES2020",
+      "WebWorker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
@@ -25,14 +27,14 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/about/page.jsx", "app/products/[productId]", "app/components/SwiperCarousel.js"  ],
+, "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/about/page.tsx", "app/products/[productId]", "app/components/SwiperCarousel.js"  ],
   "exclude": [
     "node_modules"
   ]

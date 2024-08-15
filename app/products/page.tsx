@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid';
 import Product from '../components/product'
-import { readItem } from 'app/actions/readAction';
+import { readItem } from 'app/actions1/readAction';
 
 export default function Products() {
     const [products, setProducts] = useState([]);

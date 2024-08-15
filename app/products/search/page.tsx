@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import Grid from '@mui/material/Grid';
 import Product from '../../components/product'
-import { readItem } from 'app/actions/searchAction';
+import { readItem } from 'app/actions1/searchAction';
 
 export default async function SearchProducts({ searchParams }) {
     const res = await fetch(process.env.ROOT_URL + `/api/searchProduct?query=${searchParams.query}`);
