@@ -1,18 +1,14 @@
-"use client"
-import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid';
 import Product from '../components/product'
-import { readItem } from 'app/actions1/readAction';
+import { readItem } from 'app/lib/actions';
+import { Metadata } from 'next';
 
-export default function Products() {
-    const [products, setProducts] = useState([]);
-    useEffect(() => {
-        const getAllItem = async () => {
-            const itemData = await readItem();
-            setProducts(itemData);
-        };
-        getAllItem()
-    }, []);
+export const metadata:Metadata = {
+    title: 'Products'
+}
+
+export default async function Products() {
+    const products = await readItem()
     return (
         <Grid sx={{ mt: 4 }} container spacing={2}>
             {products.map((item, key) => (

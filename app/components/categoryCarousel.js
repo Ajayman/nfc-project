@@ -1,11 +1,9 @@
 "use client"
-import { useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import Link from '@mui/material/Link'
 import Image from 'next/image'
 
 export default function CategoryCarousel({categories, sendCategoryToParent}){
-  const [data, setData] = useState("")
   function handleCarousel(category){
     sendCategoryToParent(category)
   }

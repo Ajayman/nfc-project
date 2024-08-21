@@ -17,7 +17,7 @@ import { appBarMenu as pagesMenu } from '../products';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Drawer } from '@mui/material'
 import Search from '../components/Search'
-import { getCookie } from 'app/actions1/getCookieAction';
+import { getCookie } from 'app/lib/actions';
 import DrawerList from './drawer';
 import CartItem from './cartItem';
 import {useContext} from "react"
@@ -158,7 +158,7 @@ export default function ResponsiveAppBar({ children }) {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            <Search />
+            <Search placeholder="Search Products..."/>
             {children}
             <IconButton aria-label='shopping cart' onClick={toggleDrawer(true)} >
               <ShoppingCartOutlinedIcon />

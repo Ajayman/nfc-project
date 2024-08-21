@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const isLoggedIn = cookies().get("Authorization");
-  return(
+  return (
     <html lang="en">
       <body >
         <React.Suspense>
@@ -40,7 +40,6 @@ export default function RootLayout({ children }) {
         <Footer />
         <LabelBottomNavigation />
       </body>
-      {/* <script src="http://localhost:8097"></script> */}
     </html>
   );
 }

@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material"
-import { readAbout } from 'app/actions1/readAction'
+import { readAbout } from 'app/lib/actions'
 import { Metadata } from 'next';
 
 export const metadata:Metadata = {

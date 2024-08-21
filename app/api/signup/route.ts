@@ -6,17 +6,17 @@ import bcrypt from "bcryptjs"
 export async function POST(request: Request){
     // read data of req body
     const body = await request.json();
+    console.log(body);
     const {firstName,lastName,email,age,password} = body;
 
-
     // validate data
-    if(!validateEmail(email) || !validatePassword(password)){
-        return Response.json({
-            error: "Invalid email or password",
-        },
-        {status: 400}
-        )
-    }
+    // if(!validateEmail(email) || !validatePassword(password)){
+    //     return Response.json({
+    //         error: "Invalid email or password",
+    //     },
+    //     {status: 400}
+    //     )
+    // }
     // hash the password
     var hash = bcrypt.hashSync(password, 8)
 
@@ -27,12 +27,9 @@ export async function POST(request: Request){
             lastName,
             email,
             age, 
-            password: hash,
-            cart: {
-                create:{}
-            }
+            password: hash
         }
     })
     // return something
-    return Response.json({});
+    return Response.json({message: "User registered"});
 }

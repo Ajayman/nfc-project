@@ -8,13 +8,14 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
 import ChooseSize from "app/components/Variant";
 import { notFound } from "next/navigation";
-async function fetchData(productId) {
+import { Metadata } from "next";
+async function fetchData(productId: string) {
     try {
         const res = await fetch(process.env.ROOT_URL + `/api/products/${productId}`, {
             method: "GET",
             cache: "force-cache"
         });
-        console.log(res);
+        console.log("This is an exapmple" + res.url);
         if (!res.ok) {
             throw new Error('Failed to fetch data');
 
@@ -27,7 +28,8 @@ async function fetchData(productId) {
 
 export default async function ProductDetail({ params }: { params: { productId: string } }) {
     const { productId } = params;
-    const product = await fetchData(productId);
+    const result = await fetchData(productId);
+    const product = result.data
     if (!product) {
         notFound();
     }
@@ -73,4 +75,8 @@ export default async function ProductDetail({ params }: { params: { productId: s
             </Suspense>
         </Box >
     )
+}
+
+export const metadata:Metadata = {
+    title: 'Detail'
 }

@@ -1,7 +1,7 @@
 import validatePassword from "../helpers/validatePassword";
 import validateEmail from "../helpers/validateEmail";
+import bcrypt from 'bcryptjs'
 import prisma from "app/lib/prisma";
-import bcrypt from "bcryptjs"
 import * as jose from "jose"
 export async function POST(request: Request){
     // Read data off req body

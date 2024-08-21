@@ -7,7 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useRouter} from 'next/navigation';
-import CartAdd from 'app/actions1/cartAction';
+import {CartAdd} from '../lib/actions';
 
 export default function ImgMediaCard({ id, name, imageUrl, title, price }) {
   const router = useRouter();

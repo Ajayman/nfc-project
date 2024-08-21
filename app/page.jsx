@@ -8,8 +8,8 @@ import CategoryCarousel from './components/categoryCarousel'
 import Product from './components/product'
 import 'react-multi-carousel/lib/styles.css'
 import { useEffect, useState } from 'react'
-import { readItem } from 'app/actions1/readAction'
-import { readCategory } from 'app/actions1/readAction'
+import { readItem } from 'app/lib/actions'
+import { readCategory } from 'app/lib/actions'
 import {useRouter} from 'next/navigation'
 
 export default function Home() {

@@ -1,12 +1,23 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { Box, Button, IconButton, InputAdornment, InputBase, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
+import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useSearchParams, usePathname } from 'next/navigation';
 export default function SearchProducts() {
-    const router = useRouter()
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
     function SearchAction(formData) {
-        const query = formData.get("query");
-        router.push(`/products/search?query=${query}`)
+        const term = formData.get('search')
+        const params = new URLSearchParams(searchParams);
+        if(term) {
+            params.set('query', term)
+        } else {
+            params.delete('query');
+        }
+        router.push(`/products/search?${params.toString()}`);
+        // const query = formData.get("query");
+        // router.push(`/products/search?query=${query}`)
     }
     return (
         <Paper
@@ -17,9 +28,9 @@ export default function SearchProducts() {
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search Your Product"
-                name='query'
+                name='search'
             />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+            <IconButton type='submit' sx={{ p: '10px' }} aria-label="search">
                 <SearchIcon />
             </IconButton>
         </Paper>

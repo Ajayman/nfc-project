@@ -1,11 +1,10 @@
-// "use client"
-// import { useState, useEffect } from 'react'
 import { Suspense } from 'react';
 import Grid from '@mui/material/Grid';
 import Product from '../../components/product'
-import { readItem } from 'app/actions1/searchAction';
+import { readItem } from '@/app/lib/actions';
 
-export default async function SearchProducts({ searchParams }) {
+export default async function SearchProducts({ searchParams }: {searchParams?: {query?:string}}) {
+    // const query = searchParams?.query || '';
     const res = await fetch(process.env.ROOT_URL + `/api/searchProduct?query=${searchParams.query}`);
     const result = await res.json();
     const products = result.data;
