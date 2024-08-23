@@ -5,7 +5,7 @@ import { readItem } from '@/app/lib/actions';
 
 export default async function SearchProducts({ searchParams }: {searchParams?: {query?:string}}) {
     // const query = searchParams?.query || '';
-    const res = await fetch(process.env.ROOT_URL + `/api/searchProduct?query=${searchParams.query}`);
+    const res = await fetch(process.env.ROOT_URL + `/api/searchProduct?query=${searchParams?.query}`);
     const result = await res.json();
     const products = result.data;
     return (
@@ -20,13 +20,3 @@ export default async function SearchProducts({ searchParams }: {searchParams?: {
         </Grid>
     )
 }
-
-// export default function Product({ searchParams }) {
-//     return (
-//         <section>
-//             <Suspense fallback={"Loading"}>
-//                 <SearchProducts searchParams />
-//             </Suspense>
-//         </section>
-//     )
-// }
