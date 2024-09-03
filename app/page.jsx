@@ -8,9 +8,8 @@ import CategoryCarousel from './components/categoryCarousel'
 import Product from './components/product'
 import 'react-multi-carousel/lib/styles.css'
 import { useEffect, useState } from 'react'
-import { readItem } from 'app/lib/actions'
-import { readCategory } from 'app/lib/actions'
-import {useRouter} from 'next/navigation'
+import { fetchProducts, readCategory } from 'app/lib/actions'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -21,7 +20,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     const getAllItem = async () => {
-      const itemData = await readItem()
+      const itemData = await fetchProducts()
       setProducts(itemData);
       setNewProducts(itemData.filter((item) => item.productType == "New"))
       setTrendingProducts(itemData.filter((item) => item.productType == "Trending"))
@@ -29,23 +28,14 @@ export default function Home() {
     };
     getAllItem()
   }, []);
-  useEffect(() => {
-    const getAllCategory = async () => {
-      const category = await readCategory()
-      setCategoryItem(category);
-    }
-    getAllCategory();
-  }, [])
-  const handleCategoryFromChild = (data)=>{
-    router.push(`products/category?name=${data}`);   
-  }
-  console.log(products);
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>   
       <Grid container>
         <Grid item xs={6}>
-          <Typography variant='h1' fontWeight='bold'>Let’s enjoy with
-            Nina’s Fashion</Typography>
+          <Typography variant='h1' fontWeight='bold'>
+            Let’s enjoy with
+            Nina’s Fashion
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Grid container justifyContent='flex-end'>
@@ -56,7 +46,7 @@ export default function Home() {
       <Grid container sx={{ pb: 2 }}>
         <Link variant='h5' href='/category' color='black' underline='hover'>Categories</Link>
       </Grid>
-      <CategoryCarousel categories={categoryItems}  sendCategoryToParent={handleCategoryFromChild}/>
+      <CategoryCarousel />
       <Grid container sx={{ mt: 3, mb: 2 }}>
         <Grid item sx={{ pb: 2 }}>
           <Typography variant='h5'>New Items</Typography>

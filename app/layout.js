@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import IconButton from '@mui/material/IconButton';
+import 'styles/global.css'
 export const metadata = {
   name: "viewport",
   content: "initial-scale=1, width=device-width, height=300",
@@ -19,7 +20,7 @@ export default function RootLayout({ children }) {
   const isLoggedIn = cookies().get("Authorization");
   return (
     <html lang="en">
-      <body >
+      <body>
         <React.Suspense>
           <ResponsiveAppBar >
             <div>

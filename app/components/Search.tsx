@@ -10,14 +10,13 @@ export default function SearchProducts() {
     function SearchAction(formData) {
         const term = formData.get('search')
         const params = new URLSearchParams(searchParams);
+        params.set('page', '1');
         if(term) {
             params.set('query', term)
         } else {
             params.delete('query');
         }
         router.push(`/products/search?${params.toString()}`);
-        // const query = formData.get("query");
-        // router.push(`/products/search?query=${query}`)
     }
     return (
         <Paper

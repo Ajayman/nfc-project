@@ -1,7 +1,3 @@
-import {withUt} from "uploadthing/tw"
-export default withUt({
-  content: ["./src/**/*.{ts,tsx,mdx}"]
-})
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}"
@@ -9,7 +5,6 @@ module.exports = {
   corePlugins: {
     preflight: false
   },
-  important: '#app',
   theme: {
     extend: {},
   },

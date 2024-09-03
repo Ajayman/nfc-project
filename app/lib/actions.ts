@@ -104,13 +104,45 @@ export async function fetchData(productId) {
     }
     return res.json();
 }
-
-export const readItem = async () => {
+const ITEMS_PER_PAGE = 5;
+export const fetchProducts = async () => {
     try {
-        const productData = await prisma.product.findMany()
-        return productData;
+        const products = await prisma.product.findMany()
+        return products;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const fetchProductsPage = async (query: string) => {
+    try {
+        const count = await prisma.product.count()
+        const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE);
+        console.log(totalPages);
+        return totalPages;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const fetchFilteredProducts = async (query: string, currentPage: number)=>{
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE
+    try {
+        const products = await prisma.product.findMany({
+            skip: offset,
+            take: ITEMS_PER_PAGE,
+            where: {
+                name: {
+                    contains: query,
+                    mode: "insensitive"
+                }
+            }
+        }
+        )
+        return products;
+    } catch(error) {
+        console.log('Database Error', error)
+        throw new Error('Failed to fetch invoices.');
     }
 }
 

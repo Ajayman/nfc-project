@@ -14,10 +14,10 @@ export default function ImgMediaCard({ id, name, imageUrl, title, price }) {
   function handleDetail(){
     router.push(`/products/${id}`)
   }
-  function handleCart(){
-    CartAdd(id, qty=1,)
+  // function handleCart(){
+  //   CartAdd(id, qty=1,)
     
-  }
+  // }
   return (
     <Card>
       <CardMedia

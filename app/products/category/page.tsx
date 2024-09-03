@@ -1,5 +1,3 @@
-"use client"
-import { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
@@ -8,45 +6,24 @@ import 'react-multi-carousel/lib/styles.css'
 import CategoryCarousel from "app/components/categoryCarousel";
 import { readItem } from "@/app/lib/actions";
 import { readCategory } from "@/app/lib/actions";
-
-export default function Category() {
-    const [filterProduct, setFilterProduct] = useState([])
-    const [categoryItems, setCategoryItem] = useState([])
-    const [products, setProducts] = useState([]);
-    const [category, setCategory] = useState("")
-    useEffect(() => {
-        const getAllItem = async () => {
-            const itemData = await readItem()
-            setProducts(itemData);
-        };
-        getAllItem()
-    }, []);
-    useEffect(()=> {
-        const getAllCategory = async()=> {
-          const category = await readCategory()
-          setCategoryItem(category);
-        }
-        getAllCategory();
-      },[])
-
-      const handleCategoryFromChild = (cat)=>{
-        const newItems = products.filter((newVal)=> newVal.category == cat)
-        setCategory(cat);
-        setFilterProduct(newItems)
-      }
+import { useSearchParams } from "next/navigation";
+export default async function Category({searchParams}: {searchParams?:{query?:string}}) {
+    const res = await fetch(process.env.ROOT_URL + `/api/products/category?query=${searchParams?.query}`)
+    const result = await res.json();
+    const filteredProduct = result.data;
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container sx={{ pb: 2, mt: 3 }}>
                 <Link variant='h5' href='products/category' color='black' underline='hover'>Product Categories</Link>
             </Grid>
-            <CategoryCarousel categories={categoryItems} sendCategoryToParent={handleCategoryFromChild}/>
+            <CategoryCarousel />
             <Grid container sx={{ mt: 3, mb: 2 }}>
                 <Grid item sx={{ pb: 2 }}>
-                    <Typography variant='h5'>{category}</Typography>
+                    <Typography variant='h5'>{searchParams?.query}</Typography>
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
-                {products && filterProduct.map((item, key) => (
+                {filteredProduct.map((item, key) => (
                     <Grid item xs={6} sm={4} md={3} key={item.id}>
                         <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
                     </Grid>
