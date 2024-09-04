@@ -104,7 +104,7 @@ export async function fetchData(productId) {
     }
     return res.json();
 }
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 export const fetchProducts = async () => {
     try {
         const products = await prisma.product.findMany()
@@ -116,9 +116,16 @@ export const fetchProducts = async () => {
 
 export const fetchProductsPage = async (query: string) => {
     try {
-        const count = await prisma.product.count()
+        const count = await prisma.product.count({
+            where:{
+                name: {
+                    contains: query,
+                    mode: "insensitive"
+                }
+            }
+        }
+        )
         const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE);
-        console.log(totalPages);
         return totalPages;
     } catch (error) {
         console.log(error);
@@ -139,6 +146,7 @@ export const fetchFilteredProducts = async (query: string, currentPage: number)=
             }
         }
         )
+        console.log(products);
         return products;
     } catch(error) {
         console.log('Database Error', error)

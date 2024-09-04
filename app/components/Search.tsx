@@ -16,7 +16,7 @@ export default function SearchProducts() {
         } else {
             params.delete('query');
         }
-        router.push(`/products/search?${params.toString()}`);
+        router.push(`/products?${params.toString()}`);
     }
     return (
         <Paper
