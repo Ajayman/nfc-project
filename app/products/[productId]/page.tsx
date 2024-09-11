@@ -1,14 +1,16 @@
 import React from "react";
 import { Suspense } from 'react';
-import { Box, IconButton, Stack, TextField } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CompareIcon from '@mui/icons-material/Compare';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
-import Button from '@mui/material/Button';
-import ChooseSize from "app/components/Variant";
+import { Box } from '@mui/material';
+import Grid from "@mui/material/Unstable_Grid2";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import ImageSwiper from "@/app/components/ImageSwiper";
+import ProductDetailContent from "@/app/components/ProductDetailContent";
+import DetailDescription from "@/app/components/DetailDescription";
+import { Typography } from "@mui/material";
+import { readFiltered } from "@/app/lib/actions";
+import FilterProducts from "@/app/components/FilterProducts";
+
 async function fetchData(productId: string) {
     try {
         const res = await fetch(process.env.ROOT_URL + `/api/products/${productId}`, {
@@ -25,7 +27,6 @@ async function fetchData(productId: string) {
         console.log(error.message)
     }
 }
-
 export default async function ProductDetail({ params }: { params: { productId: string } }) {
     const { productId } = params;
     const result = await fetchData(productId);
@@ -33,50 +34,36 @@ export default async function ProductDetail({ params }: { params: { productId: s
     if (!product) {
         notFound();
     }
+    const filterProduct = await readFiltered();
     return (
         <Box sx={{ flexGrow: 1 }} >
             <Suspense fallback={"Loading..."}>
                 <Grid container spacing={2} sx={{ mt: 2 }}>
-                    <Grid xs={7} display="flex" justifyContent="center" flexDirection="column">
-                        {/* <SwiperImage /> */}
+                    <Grid xs={12} md={7} display="flex" justifyContent="center" flexDirection="column">
+                        <ImageSwiper />
                     </Grid>
-                    <Grid xs={5}>
-                        <Typography variant="h3">
-                            {product.name}
+                    <ProductDetailContent item={product} />
+                    <DetailDescription display='xs-block hidden' />
+                </Grid>
+            </Suspense>
+            <Suspense>
+                <Grid sx={{ mt: 4 }} container spacing={2}>
+                    <Grid xs={12}>
+                        <Typography variant="h4">
+                            You may also like
                         </Typography>
-                        <Typography variant="subtitle2">
-                            Be the first to review this product
-                        </Typography>
-                        <Box display="flex" flexDirection="row" justifyContent="space-between">
-                            <Typography variant='h4'>
-                                Nrs. {product.price}
-                            </Typography>
-                            <Box>
-                                <Typography variant='h6'>
-                                    In Stock
-                                </Typography>
-                                <Typography variant='subtitle1'>
-                                    SKU: #1234
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <hr />
-                        <ChooseSize type="Size" />
-                        <ChooseSize type="Color" />
-                        <Typography variant="h6">Qty</Typography>
-                        <TextField sx={{ width: 40, height: 45 }} id="outlined-basic" label="1" variant="outlined" />
-                        <Stack sx={{ mt: 3 }} spacing={4} direction='row'>
-                            <Button size="large" variant='contained'>Add To Cart</Button>
-                        </Stack>
-                        <Button color="secondary" startIcon={<FavoriteIcon />}>Add to Favourite Icon</Button>
-                        <Button color="secondary" startIcon={<CompareIcon />}>Compare With Other Product</Button>
                     </Grid>
+                    {filterProduct.map((item, key) => (
+                        <Grid xs={3} key={item.id}>
+                            <FilterProducts item={item} />
+                        </Grid>
+                    ))}
                 </Grid>
             </Suspense>
         </Box >
     )
 }
 
-export const metadata:Metadata = {
+export const metadata: Metadata = {
     title: 'Detail'
 }

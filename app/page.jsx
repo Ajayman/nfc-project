@@ -55,7 +55,7 @@ export default function Home() {
       <Grid container spacing={2}>
         {newProducts && newProducts.map((item, key) => (
           <Grid item xs={6} sm={4} md={3} key={item.id}>
-            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+            <Product item={item} />
           </Grid>
         ))}
       </Grid>
@@ -67,7 +67,7 @@ export default function Home() {
       <Grid container spacing={2}>
         {trendingProduct && trendingProduct.map((item, key) => (
           <Grid item xs={6} sm={4} md={3} key={item.id}>
-            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+            <Product item={item} />
           </Grid>
         ))}
       </Grid>
@@ -79,7 +79,7 @@ export default function Home() {
       <Grid container spacing={2}>
         {oldProduct && oldProduct.map((item, key) => (
           <Grid item xs={6} sm={4} md={3} key={item.id}>
-            <Product id={item.id} name={item.name} title={item.title} imageUrl={item.imageUrl} price={item.price} />
+            <Product item={item} />
           </Grid>
         ))}
       </Grid>

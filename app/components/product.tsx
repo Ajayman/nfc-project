@@ -8,11 +8,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useRouter} from 'next/navigation';
 import {CartAdd} from '../lib/actions';
-
-export default function ImgMediaCard({ id, name, imageUrl, title, price }) {
+import {Product} from '@prisma/client'
+export default function ImgMediaCard({ item }: Product) {
   const router = useRouter();
   function handleDetail(){
-    router.push(`/products/${id}`)
+    router.push(`/products/${item.id}`)
   }
   // function handleCart(){
   //   CartAdd(id, qty=1,)
@@ -24,17 +24,17 @@ export default function ImgMediaCard({ id, name, imageUrl, title, price }) {
         component="img"
         alt="green iguana"
         height="200"
-        src={imageUrl}
+        src={item.imageUrl}
       />
       <CardActions sx={{ justifyContent: "center" }}>
-        <Button variant='outlined' size="small" onClick={()=> handleCart()}>Add to cart</Button>
+        {/* <Button variant='outlined' size="small" onClick={()=> handleCart()}>Add to cart</Button> */}
       </CardActions>
       <CardContent>
           <Button onClick={()=> handleDetail()}>
-            {title}
+            {item.title}
           </Button>
         <Typography gutterBottom variant="subtitle1" component="div">
-          Nprs.{price}
+          Nprs.{item.price}
         </Typography>
       </CardContent>
     </Card>

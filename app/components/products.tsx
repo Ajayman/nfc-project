@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { fetchFilteredProducts } from '@/app/lib/actions'
 import { Grid } from '@mui/material';
 import Link from 'next/link';
+import ProductRating from './productRating';
 export default async function Products({
   query,
   currentPage
@@ -21,23 +22,31 @@ export default async function Products({
       {
         filteredProducts.map((product, i) => (
           <Grid item xs={6} sm={4} md={3} key={i}>
-            <Card>
-              <CardMedia
-                component="img"
-                alt="green iguana"
-                height="200"
-                src={product.imageUrl}
-              />
-              <CardActions sx={{ justifyContent: "center" }}>
-                <Button variant='outlined' size="small">Add to cart</Button>
-              </CardActions>
-              <CardContent>
-                <Link href={`/products/${product.id}`}>{product.title}</Link>
-                <Typography gutterBottom variant="subtitle1" component="div">
-                  Nprs.{product.price}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link href={`/products/${product.id}`}>
+              <Card sx={{ height: 380, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
+                <CardMedia
+                  component="img"
+                  alt="green iguana"
+                  src={product.imageUrl}
+                  sx={{ width: '60%', height: '40%', }}
+                />
+                <CardContent sx={{ textAlign: 'center', textDecorationStyle: 'none' }}>
+                  <Typography variant='h5' component="div">
+                    {product.name}
+                  </Typography>
+                  <Typography variant='body2' component="div" sx={{ color: 'text.secondary' }}>
+                    {product.title}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle1" component="div">
+                    Nprs. <span className='text-lg'>{product.price}</span>
+                  </Typography>
+                  <ProductRating />
+                </CardContent>
+                <CardActions>
+                  <Button size='small' variant='outlined' color='success'>Buy Now</Button>
+                </CardActions>
+              </Card>
+            </Link>
           </Grid>
         ))
       }

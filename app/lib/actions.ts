@@ -172,6 +172,21 @@ export const readCategory = async () => {
     }
 }
 
+export const readFiltered = async()=> {
+    try{
+        const filteredProduct = await prisma.product.findMany({
+            where: {
+                productType: {
+                    equals: 'New'
+                }
+            }
+
+        })
+        return filteredProduct
+    }catch(error){
+        return error
+    }
+}
 
 export async function loginAction(formData: FormData) {
     const validatedFields = loginSchema.safeParse({

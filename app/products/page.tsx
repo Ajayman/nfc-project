@@ -18,7 +18,6 @@ export default async function Products({
 }) {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
-    console.log(currentPage);
     const totalPages = await fetchProductsPage(query);
     return (
         <>
@@ -29,3 +28,4 @@ export default async function Products({
         </>
     )
 }
+ 
