@@ -8,8 +8,8 @@ import ImageSwiper from "@/app/components/ImageSwiper";
 import ProductDetailContent from "@/app/components/ProductDetailContent";
 import DetailDescription from "@/app/components/DetailDescription";
 import { Typography } from "@mui/material";
-import { readFiltered } from "@/app/lib/actions";
-import FilterProducts from "@/app/components/FilterProducts";
+import { fetchProductType } from "@/app/lib/actions";
+import ProductCard from "@/app/components/FilterProducts";
 
 async function fetchData(productId: string) {
     try {
@@ -34,7 +34,7 @@ export default async function ProductDetail({ params }: { params: { productId: s
     if (!product) {
         notFound();
     }
-    const filterProduct = await readFiltered();
+    const filterProduct = await fetchProductType('New');
     return (
         <Box sx={{ flexGrow: 1 }} >
             <Suspense fallback={"Loading..."}>
@@ -46,7 +46,7 @@ export default async function ProductDetail({ params }: { params: { productId: s
                     <DetailDescription display='xs-block hidden' />
                 </Grid>
             </Suspense>
-            <Suspense>
+            <Suspense fallback={"Loading..."}>
                 <Grid sx={{ mt: 4 }} container spacing={2}>
                     <Grid xs={12}>
                         <Typography variant="h4">
@@ -55,7 +55,7 @@ export default async function ProductDetail({ params }: { params: { productId: s
                     </Grid>
                     {filterProduct.map((item, key) => (
                         <Grid xs={3} key={item.id}>
-                            <FilterProducts item={item} />
+                            <ProductCard item={item} />
                         </Grid>
                     ))}
                 </Grid>

@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import { readCategory } from '../lib/actions'
 import clsx from 'clsx'
-import { CategoryOutlined } from '@mui/icons-material'
+
 export default function CategoryCarousel() {
   const searchParams = useSearchParams();
   console.log(searchParams.get("query"))

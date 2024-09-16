@@ -10,7 +10,7 @@ import Link from 'next/link';
 import ProductRating from './productRating';
 import { Product } from '@prisma/client';
 import { useState } from 'react';
-export default function FilterProducts({item}: Product) {
+export default function ProductCard({item}: Product) {
     const [product, setProduct] = useState(item)
     return (
         <Grid item xs={6} sm={4} md={3}>
@@ -30,7 +30,7 @@ export default function FilterProducts({item}: Product) {
                             {product.title}
                         </Typography>
                         <Typography gutterBottom variant="subtitle1" component="div">
-                            Nprs. <span className='text-lg'>{product.price}</span>
+                            Nprs. <span className='text-xl'>{product.price}</span>
                         </Typography>
                         <ProductRating />
                     </CardContent>

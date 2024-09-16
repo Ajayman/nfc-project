@@ -188,6 +188,22 @@ export const readFiltered = async()=> {
     }
 }
 
+export async function fetchProductType(type: String){
+    try{
+        const filteredProduct = await prisma.product.findMany({
+            where: {
+                productType: {
+                    equals: type
+                }
+            }
+
+        })
+        return filteredProduct
+    }catch(error){
+        return error
+    }
+}
+
 export async function loginAction(formData: FormData) {
     const validatedFields = loginSchema.safeParse({
         email: formData.get('email')
