@@ -10,27 +10,36 @@ import DetailDescription from "@/app/components/DetailDescription";
 import { Typography } from "@mui/material";
 import { fetchProductType } from "@/app/lib/actions";
 import ProductCard from "@/app/components/FilterProducts";
+import prisma from "@/app/lib/prisma";
 
 async function fetchData(productId: string) {
-    try {
-        const res = await fetch(process.env.ROOT_URL + `/api/products/${productId}`, {
-            method: "GET",
-            cache: "force-cache"
-        });
-        console.log("This is an exapmple" + res.url);
-        if (!res.ok) {
-            throw new Error('Failed to fetch data');
+    // try {
+    //     const res = await fetch(process.env.ROOT_URL + `/api/products/${productId}`, {
+    //         method: "GET"
+    //     });
+    //     if (!res.ok) {
+    //         throw new Error('Failed to fetch data');
 
-        }
-        return res.json();
-    } catch (error) {
-        console.log(error.message)
+    //     }
+    //     return res.json();
+    // } catch (error) {
+    //     console.log(error.message)
+    // }
+    try{
+        const result = await prisma.product.findUnique({
+            where: {
+                id: productId
+            }
+        })
+
+        return result
+    }catch(error){
+        return error
     }
 }
 export default async function ProductDetail({ params }: { params: { productId: string } }) {
     const { productId } = params;
-    const result = await fetchData(productId);
-    const product = result.data
+    const product = await fetchData(productId);
     if (!product) {
         notFound();
     }
@@ -40,7 +49,7 @@ export default async function ProductDetail({ params }: { params: { productId: s
             <Suspense fallback={"Loading..."}>
                 <Grid container spacing={2} sx={{ mt: 2 }}>
                     <Grid xs={12} md={7} display="flex" justifyContent="center" flexDirection="column">
-                        <ImageSwiper />
+                        <ImageSwiper imageList={product.imageUrl} />
                     </Grid>
                     <ProductDetailContent item={product} />
                     <DetailDescription display='xs-block hidden' />
@@ -53,8 +62,8 @@ export default async function ProductDetail({ params }: { params: { productId: s
                             You may also like
                         </Typography>
                     </Grid>
-                    {filterProduct.map((item, key) => (
-                        <Grid xs={3} key={item.id}>
+                    {filterProduct.map((item, i) => (
+                        <Grid xs={3} key={i}>
                             <ProductCard item={item} />
                         </Grid>
                     ))}

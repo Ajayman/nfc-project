@@ -11,36 +11,9 @@ import Image from 'next/image'
 
 
 
-export default function ImageSwiper() {
-    const image = [
-        {
-            imageSrc: "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg",
-            imageAlt: "Picture of the author1",
-            imageHeight: 500,
-            imageWidth: 500
-        },
-        {
-            imageSrc: "https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg",
-            imageAlt: "Picture of the author2",
-            imageHeight: 500,
-            imageWidth: 500
-        },
-        {
-            imageSrc: "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg",
-            imageAlt: "Picture of the author3",
-            imageHeight: 500,
-            imageWidth: 500
-        },
-        {
-            imageSrc: "https://images.pexels.com/photos/1454720/pexels-photo-1454720.jpeg",
-            imageAlt: "Picture of the author5",
-            imageHeight: 500,
-            imageWidth: 500
-        }
-    ]
-    const [remoteImages, setRemoteImages] = useState(image)
+export default function ImageSwiper({imageList}) {
+    const [remoteImages, setRemoteImages] = useState(imageList)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
-
     return (
         <>
             <Swiper
@@ -53,10 +26,10 @@ export default function ImageSwiper() {
                 {
                     remoteImages.map((img, i) => (
                         <SwiperSlide key={i}>
-                            <Image src={img.imageSrc}
-                                alt={img.imageAlt}
-                                width={img.imageWidth}
-                                height={img.imageHeight} />
+                            <Image src={img}
+                                alt="image"
+                                width="500"
+                                height="500" />
                         </SwiperSlide>
                     ))
 
@@ -75,8 +48,8 @@ export default function ImageSwiper() {
                     remoteImages.map((img, i) => (
                         <SwiperSlide key={i}>
                             <Image
-                                src={img.imageSrc}
-                                alt={img.imageAlt}
+                                src={img}
+                                alt="image"
                                 width={200}
                                 height={200}
                             />

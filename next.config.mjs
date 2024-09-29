@@ -10,6 +10,9 @@ const nextConfig = {
         hostname: "images.pexels.com",
         port: '',
         pathname: '/photos/**'
+      },
+      {
+        hostname:'utfs.io'
       }
     ]
   }

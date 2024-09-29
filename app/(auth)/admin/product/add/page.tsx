@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, TextField } from '@mui/material';
@@ -12,10 +12,15 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { MultiUploader } from '@/app/components/MultiUploader';
+import { useUploadThing } from "@/app/utils/uploadthing";
+import { useDropzone } from "@uploadthing/react";
+import { generateClientDropzoneAccept } from "uploadthing/client";
+import Image from 'next/image';
 type FormData = {
     name: string,
     imageKey: string,
-    imageUrl: string
+    imageUrl: string[],
     price: string,
     title: string,
     description: string,
@@ -24,10 +29,10 @@ type FormData = {
 }
 
 export default function AdminPage() {
-    const [imageUrl, setImageUrl] = useState("")
-    // const [state, formAction] = useFormState(AddAction, {
-    //     message: ""
-    // })
+    const [imageUrl, setImageUrl] = useState([""])
+    const [state, formAction] = useFormState(AddAction, {
+        message: ""
+    })
     const addUser = AddAction.bind(null, imageUrl)
     const form = useForm<FormData>({ resolver: zodResolver(schema) });
     const { register, handleSubmit, formState: { errors } } = form;
@@ -59,7 +64,11 @@ export default function AdminPage() {
                             endpoint='imageUploader'
                             onClientUploadComplete={(res) => {
                                 // Do something with the response
-                                setImageUrl(res[0].url)
+                                const urlList = res.reduce((url, obj)=> {
+                                    url.push(obj.url)
+                                    return url
+                                }, [])
+                                setImageUrl(urlList)
                                 alert("Upload Completed");
                             }}
                             onUploadError={(error: Error) => {
@@ -67,6 +76,11 @@ export default function AdminPage() {
                                 alert(`ERROR! ${error.message}`);
                             }}
                         />
+                        {imageUrl.length ? 
+                        <div>
+                            
+                            <Image src= {imageUrl[0]} alt='my image' width={500} height={300} />
+                        </div> : null}
                     </Grid>
                     <Grid>
                         {errors.price && <span>{errors.price.message}</span>}

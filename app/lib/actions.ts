@@ -146,11 +146,10 @@ export const fetchFilteredProducts = async (query: string, currentPage: number)=
             }
         }
         )
-        console.log(products);
         return products;
     } catch(error) {
         console.log('Database Error', error)
-        throw new Error('Failed to fetch invoices.');
+        throw new Error('Failed to fetch products.');
     }
 }
 

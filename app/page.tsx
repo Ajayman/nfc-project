@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 }
 export default async function Home() {
   const newProducts = await fetchProductType('New')
+  console.log(newProducts);
   const oldProduct = await fetchProductType('Old Stock')
   const trendingProduct = await fetchProductType('Trending')
 
@@ -42,18 +43,22 @@ export default async function Home() {
           <Typography variant='h5'>New Items</Typography>
         </Grid>
         <Suspense fallback={"Loading"}>
-          {newProducts.map((item, key) => (
-            <ProductCard item={item} />
+          {newProducts.map((item, i) => (
+            <Grid item xs={6} sm={4} md={3} key={i}>
+              <ProductCard item={item} />
+            </Grid>
           ))}
         </Suspense>
-      </Grid>
+      </Grid >
       <Grid container spacing={2}>
         <Grid xs={12} item sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>Trending Products</Typography>
         </Grid>
         <Suspense fallback={"Loading..."}>
-          {trendingProduct.map((item, key) => (
-            <ProductCard item={item} />
+          {trendingProduct.map((item, i) => (
+            <Grid item xs={6} sm={4} md={3} key={i}>
+              <ProductCard item={item} />
+            </Grid>
           ))}
         </Suspense>
       </Grid>
@@ -62,8 +67,10 @@ export default async function Home() {
           <Typography variant='h5'>Old Products</Typography>
         </Grid>
         <Suspense fallback={"Loading"}>
-          {oldProduct.map((item, key) => (
-            <ProductCard item={item} />
+          {oldProduct.map((item, i) => (
+            <Grid item xs={6} sm={4} md={3} key={i}>
+              <ProductCard item={item} />
+            </Grid>
           ))}
         </Suspense>
       </Grid>

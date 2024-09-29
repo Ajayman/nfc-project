@@ -15,6 +15,7 @@ import ChooseVariant from 'app/components/Variant';
 
 export default function ProductDetailContent({ item }: Product) {
     const [product, setProduct] = useState(item);
+    console.log(product)
     const [color, setColor] = React.useState<string | null>("");
     const [size, setSize] = React.useState<string | null>("");
 
@@ -47,9 +48,9 @@ export default function ProductDetailContent({ item }: Product) {
                 </Grid>
             </Grid>
             <Grid container sx={{ alignItems: 'center' }}>
-                <ProductRating />
+                <ProductRating rating={product.rating} />
                 <Typography variant='caption' color='textSecondary'>
-                    (3) 1.2k Reviews
+                    ({product.rating}) 1.2k Reviews
                 </Typography>
             </Grid>
 
@@ -58,7 +59,7 @@ export default function ProductDetailContent({ item }: Product) {
             </Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between">
                 <Typography variant='h4'>
-                    <span className='line-through text-sm text-slate-500'>Nrs. {product.price}</span> <span>Nrs. {product.price}</span>
+                    <span className='line-through text-sm text-slate-500'>Nrs. {product.price}</span> <span>Nrs. {product.discountedPrice}</span>
                 </Typography>
             </Box>
             <hr />

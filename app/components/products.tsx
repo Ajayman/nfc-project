@@ -27,8 +27,9 @@ export default async function Products({
                 <CardMedia
                   component="img"
                   alt="green iguana"
-                  src={product.imageUrl}
+                  src={product.imageUrl[0]}
                   sx={{ width: '60%', height: '40%', }}
+                  key={i}
                 />
                 <CardContent sx={{ textAlign: 'center', textDecorationStyle: 'none' }}>
                   <Typography variant='h5' component="div">
@@ -40,7 +41,7 @@ export default async function Products({
                   <Typography gutterBottom variant="subtitle1" component="div">
                     Nprs. <span className='text-lg'>{product.price}</span>
                   </Typography>
-                  <ProductRating />
+                  <ProductRating rating={product.rating} />
                 </CardContent>
                 <CardActions>
                   <Button size='small' variant='outlined' color='success'>Buy Now</Button>
