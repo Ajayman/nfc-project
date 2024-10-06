@@ -29,6 +29,16 @@ model Product {
   rating String @default("0")
 }
 
+model CheckoutOrder {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  contact String
+  deliveryCountry String
+  shippingAddress Json?
+  shippingCost String
+  paymentMethod String
+  billingAddress Json?
+}
+
 model User {
   id  String @id @default(auto()) @map("_id") @db.ObjectId
   firstName String 

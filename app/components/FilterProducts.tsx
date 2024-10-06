@@ -10,10 +10,15 @@ import Link from 'next/link';
 import ProductRating from './productRating';
 import { Product } from '@prisma/client';
 import { useState } from 'react';
+import {useRouter} from 'next/navigation'
 export default function ProductCard({ item }: Product) {
     const [product, setProduct] = useState(item)
+    const router = useRouter();
+    function handleBtn(productId:string) {
+        router.push('/checkout')
+    }
     return (
-        <Link href={`/products/${product.id}`}>
+        
             <Card sx={{ height: 380, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
                 <CardMedia
                     component="img"
@@ -21,6 +26,7 @@ export default function ProductCard({ item }: Product) {
                     src={product.imageUrl[0]}
                     sx={{ width: '60%', height: '40%', }}
                 />
+                <Link href={`/products/${product.id}`}>
                 <CardContent sx={{ textAlign: 'center', textDecorationStyle: 'none' }}>
                     <Typography variant='h5' component="div">
                         {product.name}
@@ -34,10 +40,10 @@ export default function ProductCard({ item }: Product) {
                     </Typography>
                     <ProductRating rating={product.rating} />
                 </CardContent>
+                </Link>
                 <CardActions>
-                    <Button size='small' variant='outlined' color='success'>Buy Now</Button>
+                    <Button size='small' variant='outlined' color='success' onClick={()=>handleBtn(product.id)}>Buy Now</Button>
                 </CardActions>
             </Card>
-        </Link>
     )
 }

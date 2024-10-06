@@ -12,10 +12,9 @@ import Chip from "@mui/material/Chip";
 import ProductRating from "@/app/components/productRating"
 import { Product } from '@prisma/client';
 import ChooseVariant from 'app/components/Variant';
-
+import {addWishList} from 'app/lib/actions'
 export default function ProductDetailContent({ item }: Product) {
     const [product, setProduct] = useState(item);
-    console.log(product)
     const [color, setColor] = React.useState<string | null>("");
     const [size, setSize] = React.useState<string | null>("");
 
@@ -32,6 +31,10 @@ export default function ProductDetailContent({ item }: Product) {
     ) => {
         setSize(newSize)
     }
+
+    const handleWishlist = async () => {
+        const res = await addWishList(item.id)
+    }
     return (
         <Grid xs={12} md={5} sx={{ height: '400' }}>
             <Chip label={product.category} />
@@ -42,7 +45,7 @@ export default function ProductDetailContent({ item }: Product) {
                     </Typography>
                 </Grid>
                 <Grid xs={6} sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button size="small" variant="outlined" startIcon={<FavoriteBorderOutlined />}>
+                    <Button size="small" variant="outlined" onClick={handleWishlist} startIcon={<FavoriteBorderOutlined />}>
                         Add to Wishlist
                     </Button>
                 </Grid>

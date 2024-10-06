@@ -13,18 +13,6 @@ import ProductCard from "@/app/components/FilterProducts";
 import prisma from "@/app/lib/prisma";
 
 async function fetchData(productId: string) {
-    // try {
-    //     const res = await fetch(process.env.ROOT_URL + `/api/products/${productId}`, {
-    //         method: "GET"
-    //     });
-    //     if (!res.ok) {
-    //         throw new Error('Failed to fetch data');
-
-    //     }
-    //     return res.json();
-    // } catch (error) {
-    //     console.log(error.message)
-    // }
     try{
         const result = await prisma.product.findUnique({
             where: {

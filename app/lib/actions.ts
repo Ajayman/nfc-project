@@ -1,11 +1,33 @@
 'use server'
 import { cookies } from 'next/headers'
 import prisma from "app/lib/prisma"
-import { contactSchema, registerSchema } from './schemas'
+import { checkOutSchema, contactSchema, registerSchema } from './schemas'
 import { loginSchema } from './schemas'
 import { redirect } from "next/navigation"
 import { UserProvider } from "app/context/user"
 import { z } from 'zod'
+import { signIn } from 'auth'
+import { AuthError } from 'next-auth'
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData
+){
+    try {
+        await signIn('credentials', formData);
+      } catch (error) {
+        if (error instanceof AuthError) {
+          switch (error.type) {
+            case 'CredentialsSignin':
+              return 'Invalid credentials.';
+            default:
+              return 'Something went wrong.';
+          }
+        }
+        throw error;
+      }
+}
+
 
 type Inputs = z.infer<typeof contactSchema>
 export async function formContactAction(formData: Inputs) {
@@ -117,7 +139,7 @@ export const fetchProducts = async () => {
 export const fetchProductsPage = async (query: string) => {
     try {
         const count = await prisma.product.count({
-            where:{
+            where: {
                 name: {
                     contains: query,
                     mode: "insensitive"
@@ -132,7 +154,7 @@ export const fetchProductsPage = async (query: string) => {
     }
 }
 
-export const fetchFilteredProducts = async (query: string, currentPage: number)=>{
+export const fetchFilteredProducts = async (query: string, currentPage: number) => {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE
     try {
         const products = await prisma.product.findMany({
@@ -147,7 +169,7 @@ export const fetchFilteredProducts = async (query: string, currentPage: number)=
         }
         )
         return products;
-    } catch(error) {
+    } catch (error) {
         console.log('Database Error', error)
         throw new Error('Failed to fetch products.');
     }
@@ -171,8 +193,8 @@ export const readCategory = async () => {
     }
 }
 
-export const readFiltered = async()=> {
-    try{
+export const readFiltered = async () => {
+    try {
         const filteredProduct = await prisma.product.findMany({
             where: {
                 productType: {
@@ -182,13 +204,29 @@ export const readFiltered = async()=> {
 
         })
         return filteredProduct
-    }catch(error){
+    } catch (error) {
         return error
     }
 }
 
-export async function fetchProductType(type: String){
-    try{
+// export const addWishList = async(id: string) => {
+//     try {
+//         const addWishList = await prisma.user.upsert({
+//             where: {
+//                 email: ''
+//             }
+//             data: {
+//                 productId: id,
+//                 userId: id
+//             }
+//         })
+//     }catch(error){
+//         console.log(error)
+//     }
+// }
+
+export async function fetchProductType(type: String) {
+    try {
         const filteredProduct = await prisma.product.findMany({
             where: {
                 productType: {
@@ -198,7 +236,7 @@ export async function fetchProductType(type: String){
 
         })
         return filteredProduct
-    }catch(error){
+    } catch (error) {
         return error
     }
 }
@@ -253,6 +291,54 @@ export async function CreateUserAction(data: registerInputs) {
 
 }
 
+type checkOutInputs = z.infer<typeof checkOutSchema>
+export async function createCheckOutAction(data: checkOutInputs) {
+    const parsed = checkOutSchema.safeParse(data)
+    if (parsed.success) {
+        const rawFormData = {
+            contact: data.contact,
+            deliveryCountry: data.deliveryCountry,
+            shippingAddress: {
+                firstName: data.shippingAddress.firstName,
+                lastName: data.shippingAddress.lastName,
+                address: data.shippingAddress.address,
+                nearestLandmark: data.shippingAddress.nearestLandmark,
+                city: data.shippingAddress.city,
+                phoneNumber: data.shippingAddress.phoneNumber
+            },
+            shippingCost: data.shippingCost,
+            paymentMethod: data.paymentMethod,
+            billingAddress: {
+                firstName: data.billingAddress.firstName,
+                lastName: data.billingAddress.lastName,
+                address: data.billingAddress.address,
+                nearestLandmark: data.billingAddress.nearestLandmark,
+                city: data.billingAddress.city,
+                phoneNumber: data.billingAddress.phoneNumber
+            }
+        }
+        // const rawFormData = Object.entries(data);
+        const res = await fetch(process.env.ROOT_URL + "/api/checkout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(rawFormData)
+        })
+        const json = await res.json();
+        // Redirect to login if success
+        if (res.ok) {
+            redirect("/checkout/confirmation")
+        } else {
+            return json.error;
+        }
+    }
+    if (parsed.error) {
+        return {
+            message: "Invalid Form Data"
+        }
+    }
+}
 // export async function signIn(formData:FormData){
 //     const email = formData.get("email");
 //     const password = formData.get("password");

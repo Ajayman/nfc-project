@@ -4,6 +4,13 @@ import Credentials from 'next-auth/providers/credentials'
 import { z } from 'zod';
 import prisma from "./app/lib/prisma";
 import bcrypt from 'bcrypt';
+import { User } from "@prisma/client";
+
+// async function getUser(email: string): Promise<User | undefined>{
+//     try {
+//         const user = await prisma.user.find
+//     }
+// }
 
 export const { auth, signIn, signOut } = NextAuth({
     ...authConfig,
@@ -14,7 +21,7 @@ export const { auth, signIn, signOut } = NextAuth({
                 .safeParse(credentials);
             if (parsedCredentials.success) {
                 const { email, password } = parsedCredentials.data;
-                const user = await await prisma.user.findUnique({
+                const user = await prisma.user.findUnique({
                     where:{
                         email,
                     }

@@ -19,3 +19,26 @@ export const registerSchema = z.object({
     age: z.string(),
     password: z.string()
 })
+
+export const  checkOutSchema = z.object({
+    contact: z.string().email(),
+    deliveryCountry: z.string(),
+    shippingAddress: z.object({
+        firstName: z.string().min(2).max(30),
+        lastName: z.string().min(2).max(30),
+        address: z.string(),
+        nearestLandmark: z.string(),
+        city: z.string(),
+        phoneNumber: z.string()
+    }),
+    shippingCost: z.string(),
+    paymentMethod: z.string(),
+    billingAddress: z.object({
+        firstName: z.string().min(2).max(30),
+        lastName: z.string().min(2).max(30),
+        address: z.string(),
+        nearestLandmark: z.string(),
+        city: z.string(),
+        phoneNumber: z.string()
+    })
+})

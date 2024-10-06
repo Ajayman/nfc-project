@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 }
 export default async function Home() {
   const newProducts = await fetchProductType('New')
-  console.log(newProducts);
   const oldProduct = await fetchProductType('Old Stock')
   const trendingProduct = await fetchProductType('Trending')
 
