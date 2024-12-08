@@ -4,7 +4,7 @@ import {redirect} from "next/navigation"
 export type FormState = {
     message: string
 }
-export default async function AddAction(designerImageUrl, data: FormData): Promise<FormState>{
+export default async function AddAction(designerImageUrl: string, data: FormData): Promise<FormState>{
     const formData = Object.fromEntries(data) //converts into regular javascript object by Object.fromEntries
     const mergeFormData = {...formData, designerImageUrl}
     const parsed = schema.safeParse(mergeFormData) //validation happens even in the server too
