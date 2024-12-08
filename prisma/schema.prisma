@@ -27,6 +27,16 @@ model Product {
   productType String
   cart CartItem?
   rating String @default("0")
+  wishlistIds String[] @db.ObjectId
+  wishlists Wishlist[] @relation(fields: [wishlistIds], references: [id])
+}
+
+model Wishlist {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  productIDs String[] @db.ObjectId
+  products Product[] @relation(fields: [productIDs], references: [id])
 }
 
 model CheckoutOrder {
@@ -47,8 +57,9 @@ model User {
   age String
   password String
   cart Cart?
-
+  wishlist Wishlist[]
 }
+
 
 model About {
   id                String @id @default(auto()) @map("_id") @db.ObjectId

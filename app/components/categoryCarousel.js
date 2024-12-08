@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import { readCategory } from '../lib/actions'
 import clsx from 'clsx'
+import { Box } from '@mui/material'
 
 export default function CategoryCarousel() {
   const searchParams = useSearchParams();
@@ -66,16 +67,16 @@ export default function CategoryCarousel() {
       itemClass="carousel-item-padding-40-px"
     >
       {categoryItems.map((category) => (
-        <Link sx={{
+        <Box sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textDecoration: "none",
           // color: {searchParams.get("query")==category.name ? 'grey' : 'black'}
         }}
-          onClick={() => {
-            handleCarousel(category.name)
-          }}
+        // onClick={() => {
+        //   handleCarousel(category.name)
+        // }}
           key={category.name}>
           <Image
             src={category.imageUrl}
@@ -88,8 +89,10 @@ export default function CategoryCarousel() {
           />
           <button className={clsx(
             { 'bg-cyan-950 text-white': category.name === searchParams.get("query") }
-          )}>{category.name}</button>
-        </Link>
+          )} onClick={() => {
+            handleCarousel(category.name)
+          }}>{category.name}</button>
+        </Box>
       ))}
     </Carousel>
   )

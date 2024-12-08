@@ -6,27 +6,6 @@ import { loginSchema } from './schemas'
 import { redirect } from "next/navigation"
 import { UserProvider } from "app/context/user"
 import { z } from 'zod'
-import { signIn } from 'auth'
-import { AuthError } from 'next-auth'
-
-export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData
-){
-    try {
-        await signIn('credentials', formData);
-      } catch (error) {
-        if (error instanceof AuthError) {
-          switch (error.type) {
-            case 'CredentialsSignin':
-              return 'Invalid credentials.';
-            default:
-              return 'Something went wrong.';
-          }
-        }
-        throw error;
-      }
-}
 
 
 type Inputs = z.infer<typeof contactSchema>
@@ -60,17 +39,20 @@ export async function formContactAction(formData: Inputs) {
         return { success: false, error: parsed.error.format() }
     }
 }
+// profile actions
+export async function deleteCookies(){
+    const value = cookies().delete('Authorization');
+    redirect("/");
+}
 
 type loginInputs = z.infer<typeof loginSchema>
 export async function loginUserAction(formData: loginInputs) {
     const parsed = loginSchema.safeParse(formData)
-    console.log(parsed)
     // Get the data off the form
     if (!parsed.success) {
         return { success: false, error: parsed.error.format() }
     }
     else {
-
         const rawFormData = {
             email: formData.email,
             password: formData.password
@@ -83,17 +65,23 @@ export async function loginUserAction(formData: loginInputs) {
             body: JSON.stringify(rawFormData)
         })
         const json = await res.json();
-        cookies().set("Authorization", json.token, {
-            httpOnly: true,
-            expires: Date.now() + 24 * 60 * 60 * 1000 * 3,
-            path: "/",
-            sameSite: "strict"
-        })
-        // Redirect to login if success
         if (res.ok) {
-            UserProvider(json.user)
-            redirect("/");
+            cookies().set("Authorization", json.token, {
+                httpOnly: true, //only works on server
+                expires: Date.now() + 24 * 60 * 60 * 1000 * 3,
+                path: "/",
+                sameSite: "strict"
+            })
+            redirect('/')
+        } else {
+            return {success: false, message: 'Invalid Credentials', }
         }
+
+        // Redirect to login if success
+        // if (res.ok) {
+        //     // UserProvider(json.user)
+        //     redirect("/");
+        // }
     }
 }
 
@@ -103,6 +91,7 @@ export async function getCookie(name: string) {
     const theme = cookieStore.get(name);
     return theme;
 }
+
 
 export async function CartAdd(id: string, qty: number, user_id, string) {
     const cartData = Object.fromEntries({ id, quantity: qty, user_id });
@@ -209,21 +198,19 @@ export const readFiltered = async () => {
     }
 }
 
-// export const addWishList = async(id: string) => {
-//     try {
-//         const addWishList = await prisma.user.upsert({
-//             where: {
-//                 email: ''
-//             }
-//             data: {
-//                 productId: id,
-//                 userId: id
-//             }
-//         })
-//     }catch(error){
-//         console.log(error)
-//     }
-// }
+export const addWishList = async (id: string) => {
+    const response = await fetch(process.env.ROOT_URL + "/api/loggedInUser");
+    console.log(response.json())
+    try {
+        const addWishList = await prisma.wishlist.create({
+            data: {
+
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export async function fetchProductType(type: String) {
     try {
@@ -287,8 +274,6 @@ export async function CreateUserAction(data: registerInputs) {
             message: "Invalid Form Data"
         }
     }
-
-
 }
 
 type checkOutInputs = z.infer<typeof checkOutSchema>

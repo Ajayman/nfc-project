@@ -28,8 +28,8 @@ export default function ImageSwiper({imageList}) {
                         <SwiperSlide key={i}>
                             <Image src={img}
                                 alt="image"
-                                width="500"
-                                height="500" />
+                                width={500}
+                                height={800} />
                         </SwiperSlide>
                     ))
 
