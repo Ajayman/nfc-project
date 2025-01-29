@@ -11,7 +11,7 @@ export default function accountLayout({ children }: { children: React.ReactNode 
     return (
         <html lang="en">
             <body>
-                <h2>Admin Panel</h2>
+                <h2>Dashboard</h2>
                 {children}
             </body>
         </html>
