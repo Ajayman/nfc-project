@@ -26,7 +26,7 @@ export default function CheckOutProduct() {
             component="form"
             onSubmit={handleSubmit(processForm)}
         >
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignContent="center">
                 <Grid xs={7}>
                     <div>
                         <Typography variant="h6">

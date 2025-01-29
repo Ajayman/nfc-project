@@ -20,6 +20,6 @@ export async function GET(request: NextRequest, { params}:{ params: { productId:
             status: 200
         });
     } catch (error) {
-        console.log(error);
+       NextResponse.json({error})
     }
 }

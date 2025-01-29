@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { formContactAction } from 'app/lib/actions';
 import { contactSchema } from 'app/lib/schemas'
@@ -37,30 +37,26 @@ export default function ContactForm() {
     }
     return (
         <form onSubmit={handleSubmit(processForm)}>
-            <Grid container direction="column" alignContent="center" spacing={1} >
-                <Grid item sx={{ mt: 3 }}>
+            <Grid container spacing={1} justifyContent="center">
+                <Grid item display="flex" direction="column" alignItems="center" justifyContent="space-evenly" width= "400px" height="450px" sx={{ m: 3, border: '2px solid lightgrey', borderRadius: '5px' }}>
+                    <Typography variant='h5'>Send Message</Typography>
                     < TextField id='outlined-basic' label="Name" variant='outlined' {...register('name')} />
-                    {(<p className='text-sm text-red-400'>{errors.name?.message}</p>)}
-                </Grid>
-                < Grid item >
+                    {errors.name?.message && (<p className='text-sm text-red-400'>{errors.name?.message}</p>)}
+
                     < TextField id='outlined-basic' label="Email" variant='outlined' {...register('email')} />
                     {errors.email?.message && (
                         <p className='text-sm text-red-400'>{errors.email.message}</p>
                     )}
-                </Grid>
-                < Grid item >
-                    < TextField id='outlined-basic' label="Phone Number" variant='outlined' {...register('phoneNumber')}/>
+
+                    < TextField id='outlined-basic' label="Phone Number" variant='outlined' {...register('phoneNumber')} />
                     {errors.phoneNumber?.message && (
                         <p className='text-sm text-red-400'>{errors.phoneNumber.message}</p>
                     )}
-                </Grid>
-                < Grid item >
+
                     < TextField id='outlined-basic' label="Comment" variant='outlined' {...register('comment')} />
                     {errors.comment?.message && (
                         <p className='text-sm text-red-400'>{errors.comment.message}</p>
                     )}
-                </Grid>
-                < Grid item >
                     <Button variant='outlined' type='submit' > Send </Button>
                 </Grid>
             </Grid>

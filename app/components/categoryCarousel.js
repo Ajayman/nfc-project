@@ -10,7 +10,6 @@ import { Box } from '@mui/material'
 
 export default function CategoryCarousel() {
   const searchParams = useSearchParams();
-  console.log(searchParams.get("query"))
   const [categoryItems, setCategoryItem] = useState([])
   useEffect(() => {
     const getAllCategory = async () => {

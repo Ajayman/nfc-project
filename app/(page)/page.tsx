@@ -1,14 +1,15 @@
 import { Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import titleImage from '../public/title-image.svg'
+import titleImage from 'public/title-image.svg'
 import Image from 'next/image'
 import Link from '@mui/material/Link'
-import CategoryCarousel from './components/categoryCarousel'
+import CategoryCarousel from '@components/categoryCarousel'
 import 'react-multi-carousel/lib/styles.css'
-import { fetchProductType } from './lib/actions'
+import { fetchProductType } from '../lib/actions'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import ProductCard from './components/FilterProducts'
+import ProductCard from '../components/FilterProducts'
+import { ProductCardsSkeleton } from '@components/skeletons'
 export const metadata: Metadata = {
   title: 'Home | NFC'
 }
@@ -35,12 +36,14 @@ export default async function Home() {
       <Grid container sx={{ pb: 2 }}>
         <Link variant='h5' href='/category' color='black' underline='hover'>Categories</Link>
       </Grid>
-      <CategoryCarousel />
+      <Suspense fallback={<p>Loading</p>}>
+        <CategoryCarousel />
+      </Suspense>
       <Grid container spacing={2}>
         <Grid item xs={12} sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>New Items</Typography>
         </Grid>
-        <Suspense fallback={"Loading"}>
+        <Suspense fallback={<p>Loading</p>}>
           {newProducts.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />
@@ -48,11 +51,12 @@ export default async function Home() {
           ))}
         </Suspense>
       </Grid >
+
       <Grid container spacing={2}>
         <Grid xs={12} item sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>Trending Products</Typography>
         </Grid>
-        <Suspense fallback={"Loading..."}>
+        <Suspense fallback={<p>Loading</p>}>
           {trendingProduct.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />
@@ -64,7 +68,7 @@ export default async function Home() {
         <Grid xs={12} item sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>Old Products</Typography>
         </Grid>
-        <Suspense fallback={"Loading"}>
+        <Suspense fallback={<p>Loading</p>}>
           {oldProduct.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />

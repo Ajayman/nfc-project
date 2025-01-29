@@ -1,14 +1,15 @@
 import prisma from "app/lib/prisma"
 import { NextRequest, NextResponse } from "next/server";
-
-export async function POST(request: NextRequest){
+export async function PUT(request: NextRequest,{params}: {params: {productId: string}}){
     // read data of req body
+    const {productId} = params;
     const body = await request.json();
     const {name,imageUrl, price,discountedPrice, title, description, category, productType} = body;
-
-    // create a user in db
     try{
-    const res = await prisma.product.create({
+    const updateProduct = await prisma.product.update({
+        where: {
+            id: productId
+        },
         data: {
             name,
             imageUrl,
@@ -20,21 +21,17 @@ export async function POST(request: NextRequest){
             productType
         }
     })
-
-    // return something
-    console.log(res);
-    if(!res){
-        return NextResponse.json({error: "Failed to create product"});
+    if(!updateProduct){
+        return NextResponse.json({error: "Failed to update product"})
     }
     return NextResponse.json({
         success: true,
-        message: "Product Created Successfully",
-        data: res
+        message: "Product Updated Successfully",
+        data: updateProduct
     },{
-        status: 201
+        status: 200
     })
 }catch(error){
-    console.log(error)
+    return NextResponse.json({error})
 }
 }
-

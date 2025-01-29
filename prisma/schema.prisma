@@ -64,8 +64,11 @@ model User {
 model About {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   aboutDescription String
+  aboutTitleImageUrl String
   designerDetail  String
   designerImageUrl String
+  ourStoryDescription String
+  ourStoryImageUrl String
 }
 
 

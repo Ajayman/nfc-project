@@ -4,10 +4,10 @@ import prisma from "app/lib/prisma"
 import { checkOutSchema, contactSchema, registerSchema } from './schemas'
 import { loginSchema } from './schemas'
 import { redirect } from "next/navigation"
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { UserProvider } from "app/context/user"
 import { z } from 'zod'
-
-
+import { schema } from "@app/schemas/ProductSchema"
 type Inputs = z.infer<typeof contactSchema>
 export async function formContactAction(formData: Inputs) {
     const parsed = contactSchema.safeParse(formData)
@@ -27,7 +27,6 @@ export async function formContactAction(formData: Inputs) {
         })
 
         const json = await res.json()
-
         // // Redirect to login success page
         if (res.ok) {
             return { message: "Submission successful" }
@@ -39,8 +38,65 @@ export async function formContactAction(formData: Inputs) {
         return { success: false, error: parsed.error.format() }
     }
 }
+
+
+
+export type FormState = {
+    message: string
+}
+export async function editProductAction(imageUrl, productId: String, data: FormData): Promise<FormState> {
+    const formData = Object.fromEntries(data);
+    const mergeFormData = { ...formData, imageUrl }
+    const parsed = schema.safeParse(mergeFormData)
+    try {
+        const res = await fetch(process.env.ROOT_URL + `/api/admin/product/${productId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(mergeFormData),
+        })
+        const json = await res.json()
+        if (!json.success) {
+            message: "Cannot perform Update"
+        }
+    } catch (error) {
+        return { message: `Error on Update: ${error}` }
+    }
+    // revalidateTag('collection');
+    redirect('/admin/product')
+}
+
+export type FormCategoryState = {
+    message: String
+}
+
+export async function editCategoryAction(imageUrl, catId: String, data: FormData): Promise<FormCategoryState>{
+    const formData = Object.fromEntries(data);
+    const mergeFormData = {...formData, imageUrl}
+    console.log(catId);
+    try{
+        const res = await fetch(process.env.ROOT_URL + `/api/admin/category/edit/${catId}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(mergeFormData),
+        })
+        const json = await res.json()
+        console.log(json);
+        if(!json.success){
+            message: "Cannot Perform Update"
+        }
+        return {message: "Updated Successfully"}
+    }catch(error){
+        return { message: `Error on Update: ${error}`  }
+    }
+    redirect("/admin/category")
+}
+
 // profile actions
-export async function deleteCookies(){
+export async function deleteCookies() {
     const value = cookies().delete('Authorization');
     redirect("/");
 }
@@ -74,7 +130,7 @@ export async function loginUserAction(formData: loginInputs) {
             })
             redirect('/')
         } else {
-            return {success: false, message: 'Invalid Credentials', }
+            return { success: false, message: 'Invalid Credentials', }
         }
 
         // Redirect to login if success
@@ -164,9 +220,11 @@ export const fetchFilteredProducts = async (query: string, currentPage: number) 
     }
 }
 
+
+
 export const readAbout = async () => {
     try {
-        const aboutData = await prisma.about.findMany()
+        const aboutData = await prisma.about.findFirst()
         return aboutData;
     } catch (error) {
         console.log(error);
@@ -228,6 +286,21 @@ export async function fetchProductType(type: String) {
     }
 }
 
+export async function fetchCategoryProduct(type: String) {
+    try {
+        const categoryProduct = await prisma.product.findMany({
+            where: {
+                category: {
+                    equals: type
+                }
+            }
+        })
+        return categoryProduct
+    } catch (error) {
+        return error
+    }
+}
+
 export async function loginAction(formData: FormData) {
     const validatedFields = loginSchema.safeParse({
         email: formData.get('email')
@@ -274,6 +347,50 @@ export async function CreateUserAction(data: registerInputs) {
             message: "Invalid Form Data"
         }
     }
+}
+
+export async function deleteProduct(productId: String) {
+    try {
+        const resultCartItem = await prisma.cartItem.deleteMany({
+            where: {
+                productId
+            }
+        })
+        const resultProduct = await prisma.product.delete({
+            where: {
+                id: productId
+            }
+        })
+        return `Deleted Product and  ${productId} `
+    } catch (err) {
+        console.error(`Error deleting product and cartItem`, err)
+    }
+
+}
+
+export async function deleteCategoryAction(catId: String){
+    // const res = await fetch(process.env.ROOT_URL + `/api/admin/category/${catId}`, {next: {revalidate: 3600}})
+    try {
+        const resultCategory = await prisma.category.delete({
+            where: {
+                id: catId
+            }
+        })
+        if(resultCategory){
+            redirect('/admin/category')
+        }
+        return `Cannot Delete Category ${catId} `
+    }catch(err){
+        console.error(`Error deleting category `, err)
+    }
+}
+
+export async function editProduct(productId: String) {
+    redirect(`/admin/product/edit/${productId}`)
+}
+
+export async function editCategoryRedirect(catId: String){
+    redirect(`/admin/category/edit/${catId}`)
 }
 
 type checkOutInputs = z.infer<typeof checkOutSchema>
@@ -324,6 +441,7 @@ export async function createCheckOutAction(data: checkOutInputs) {
         }
     }
 }
+
 // export async function signIn(formData:FormData){
 //     const email = formData.get("email");
 //     const password = formData.get("password");

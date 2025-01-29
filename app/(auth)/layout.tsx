@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-export const metadata:Metadata = {
+export const metadata: Metadata = {
     title: {
         template: '%s | Authentication',
         default: 'Auth'
@@ -7,10 +7,13 @@ export const metadata:Metadata = {
     description: 'The NFC Authentication'
 }
 
-export default function accountLayout({ children }:any) {
+export default function accountLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div>
-            {children}
-        </div>
+        <html lang="en">
+            <body>
+                <h2>Admin Panel</h2>
+                {children}
+            </body>
+        </html>
     )
 }

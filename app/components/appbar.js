@@ -35,7 +35,7 @@ export default function ResponsiveAppBar({ children }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [open, setOpen] = React.useState(false)
   const [cookieValue, setCookieValue] = useState("");
-  const [cartItem, setCartItem] = useState("");
+  const [cartItem, setCartItem] = useState([]);
   useEffect(() => {
     getCookie('Authorization').then(val => setCookieValue(val.value));
   }, "")
@@ -46,8 +46,6 @@ export default function ResponsiveAppBar({ children }) {
     }
     getCartItem();
   },[])
-  console.log(cartItem);
-  console.log(loggedUser)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

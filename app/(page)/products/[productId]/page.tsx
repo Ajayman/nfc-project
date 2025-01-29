@@ -4,13 +4,13 @@ import { Box } from '@mui/material';
 import Grid from "@mui/material/Unstable_Grid2";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import ImageSwiper from "@/app/components/ImageSwiper";
-import ProductDetailContent from "@/app/components/ProductDetailContent";
-import DetailDescription from "@/app/components/DetailDescription";
+import ImageSwiper from "@app/components/ImageSwiper";
+import ProductDetailContent from "@app/components/ProductDetailContent";
+import DetailDescription from "@app/components/DetailDescription";
 import { Typography } from "@mui/material";
-import { fetchProductType } from "@/app/lib/actions";
-import ProductCard from "@/app/components/FilterProducts";
-import prisma from "@/app/lib/prisma";
+import { fetchProductType } from "@app/lib/actions";
+import ProductCard from "@app/components/FilterProducts";
+import prisma from "@app/lib/prisma";
 
 async function fetchData(productId: string) {
     try{

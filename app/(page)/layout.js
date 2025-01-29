@@ -1,8 +1,8 @@
 import * as React from 'react';
 import "@uploadthing/react/styles.css"
-import ResponsiveAppBar from "./components/appbar"
-import LabelBottomNavigation from "./components/bottomnav";
-import Footer from "./components/footer"
+import ResponsiveAppBar from "../components/appbar"
+import LabelBottomNavigation from "../components/bottomnav";
+import Footer from "../components/footer"
 // import UserIcon from "./components/userIcon"
 import { cookies } from "next/headers";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';

@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import prisma from '@/app/lib/prisma';
+import prisma from '@app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose'
 export async function GET(request: NextRequest) {

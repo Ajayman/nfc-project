@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import Link from 'next/link';
-import { loginSchema } from '@/app/lib/schemas';
-import { loginUserAction } from '@/app/lib/actions';
+import { loginSchema } from '@app/lib/schemas';
+import { loginUserAction } from '@app/lib/actions';
 type Inputs = z.infer<typeof loginSchema>
 
 export default function LoginPage() {

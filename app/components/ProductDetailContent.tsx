@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import ChooseSize from "app/components/Variant";
 import { notFound } from "next/navigation";
 import Chip from "@mui/material/Chip";
-import ProductRating from "@/app/components/productRating"
+import ProductRating from "@app/components/productRating"
 import { Product } from '@prisma/client';
 import ChooseVariant from 'app/components/Variant';
 import {addWishList} from 'app/lib/actions'

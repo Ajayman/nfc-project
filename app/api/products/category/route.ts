@@ -1,6 +1,6 @@
-import prisma from '@/app/lib/prisma';
+import prisma from '@app/lib/prisma';
 import { type NextRequest, NextResponse } from 'next/server'
-
+export const revalidate = 3600;
 export async function GET(request: NextRequest, response: NextResponse) {
     const query = request.nextUrl.searchParams.get("query");
     const res = await prisma.product.findMany({

@@ -18,7 +18,6 @@ export default function ProductCard({ item }: Product) {
         router.push('/checkout')
     }
     return (
-
         <Card sx={{ height: 380, display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
             <CardMedia
                 component="img"
@@ -39,7 +38,7 @@ export default function ProductCard({ item }: Product) {
                     <span className='text-xl'>Nprs. {product.price}  </span>
                     <span className='line-through text-sm text-slate-500'>{product.discountedPrice}</span>
                 </Typography>
-                <ProductRating rating={product.rating} />
+                <ProductRating rating={Number(product.rating)} />
             </CardContent>
             <CardActions>
                 <Button size='small' variant='outlined' color='success' onClick={() => handleBtn(product.id)}>Buy Now</Button>

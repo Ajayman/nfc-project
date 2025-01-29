@@ -20,8 +20,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/app/*": ["app/*"]
+      "@components/*": ["app/components/*"],
+      "@app/*": ["app/*"],
+      "@lib/*": ["app/lib/*"]
     },
     "plugins": [
       {
@@ -35,7 +36,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/about/page.tsx", "app/products/[productId]", "app/components/SwiperCarousel.js", "app/components/categoryCarousel.js"  ],
+, "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/(page)/about/page.tsx", "app/products/[productId]", "app/components/SwiperCarousel.js", "app/components/categoryCarousel.js"  ],
   "exclude": [
     "node_modules"
   ]

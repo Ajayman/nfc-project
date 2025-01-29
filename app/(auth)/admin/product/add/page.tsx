@@ -1,27 +1,24 @@
 'use client'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddAction from "./AddAction"
-import { schema } from "./ProductSchema"
+import { schema } from "@app/schemas/ProductSchema"
 import { useFormState } from 'react-dom';
 import { UploadButton } from "app/utils/uploadthing";
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { MultiUploader } from '@/app/components/MultiUploader';
-import { useUploadThing } from "@/app/utils/uploadthing";
-import { useDropzone } from "@uploadthing/react";
-import { generateClientDropzoneAccept } from "uploadthing/client";
 import Image from 'next/image';
 type FormData = {
     name: string,
     imageKey: string,
     imageUrl: string[],
     price: string,
+    discountedPrice: string,
     title: string,
     description: string,
     category: string,
@@ -33,11 +30,25 @@ export default function AdminPage() {
     const [state, formAction] = useFormState(AddAction, {
         message: ""
     })
+    const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([""]);
+    useEffect(() => {
+        async function fetchCategory() {
+            try {
+                const res = await fetch("/api/categories", { method: "GET", headers: { "Content-Type": "application/json" } })
+                const data = await res.json()
+                const categories = data.data.map(obj => obj.name)
+                setCategories(categories);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        fetchCategory()
+    }, [""]);
     const addUser = AddAction.bind(null, imageUrl)
     const form = useForm<FormData>({ resolver: zodResolver(schema) });
     const { register, handleSubmit, formState: { errors } } = form;
     const formRef = useRef<HTMLFormElement>(null)
-    const [category, setCategory] = useState("");
     const handleCategoryChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
     };
@@ -64,7 +75,7 @@ export default function AdminPage() {
                             endpoint='imageUploader'
                             onClientUploadComplete={(res) => {
                                 // Do something with the response
-                                const urlList = res.reduce((url, obj)=> {
+                                const urlList = res.reduce((url, obj) => {
                                     url.push(obj.url)
                                     return url
                                 }, [])
@@ -76,15 +87,18 @@ export default function AdminPage() {
                                 alert(`ERROR! ${error.message}`);
                             }}
                         />
-                        {imageUrl.length ? 
-                        <div>
-                            
-                            <Image src= {imageUrl[0]} alt='my image' width={500} height={300} />
-                        </div> : null}
+                        {imageUrl.length ?
+                            <div>
+                                <Image src={imageUrl[0]} alt='Image Preview' width={500} height={300} />
+                            </div> : null}
                     </Grid>
                     <Grid>
                         {errors.price && <span>{errors.price.message}</span>}
                         <TextField id='outlined-basic' label="Price" variant='outlined' {...register("price")} />
+                    </Grid>
+                    <Grid>
+                        {errors.discountedPrice && <span>{errors.discountedPrice.message}</span>}
+                        <TextField id='outlined-basic' label="Discount Price" variant='outlined' {...register("discountedPrice")} />
                     </Grid>
                     <Grid>
                         {errors.title && <span>{errors.title.message}</span>}
@@ -107,11 +121,9 @@ export default function AdminPage() {
                                 label="Category"
                                 onChange={handleCategoryChange}
                             >
-                                <MenuItem value={"Party Wear"}>Party Wear</MenuItem>
-                                <MenuItem value={"Casual Wear"}>Casual Wear</MenuItem>
-                                <MenuItem value={"Formal Dress"}>Formal Wear</MenuItem>
-                                <MenuItem value={"Baby Dress"}>Baby Wear</MenuItem>
-                                <MenuItem value={"Cultural Dress"}>Cultural Wear</MenuItem>
+                                {categories.map((cat) =>
+                                    <MenuItem value={cat} key={cat.id}>{cat}</MenuItem>
+                                )}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -123,7 +135,7 @@ export default function AdminPage() {
                             <Select
                                 labelId='select-productTypeId'
                                 id='select-productType'
-                                // value={productType}
+                                // defaultValue={productType}
                                 {...register("productType")}
                                 label="productType"
                                 onChange={handleProductTypeChange}
