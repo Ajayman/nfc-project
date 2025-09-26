@@ -28,19 +28,32 @@ async function fetchData(productId: string) {
 export default async function ProductDetail({ params }: { params: { productId: string } }) {
     const { productId } = params;
     const product = await fetchData(productId);
-    if (!product) {
-        notFound();
-    }
+    const productItem = {
+        id: product.id,
+        name: product.name,
+        imageKey: product.imageKey,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        discountedPrice: product.discountedPrice,
+        title: product.title,
+        shortDescription: product.shortDescription,
+        longDescription: product.longDescription,
+        category: product.category,
+        productType: product.productType
+    } 
+    // if (!product) {
+    //     notFound();
+    // }
     const filterProduct = await fetchProductType('New');
     return (
         <Box sx={{ flexGrow: 1 }} >
             <Suspense fallback={"Loading..."}>
                 <Grid container spacing={2} sx={{ mt: 2 }}>
                     <Grid xs={12} md={7} display="flex" justifyContent="center" flexDirection="column">
-                        <ImageSwiper imageList={product.imageUrl} />
+                        <ImageSwiper imageList={productItem.imageUrl} />
                     </Grid>
-                    <ProductDetailContent item={product} />
-                    <DetailDescription display='xs-block hidden' />
+                    <ProductDetailContent item={productItem} />
+                    {/* <DetailDescription display='xs-block hidden' /> */}
                 </Grid>
             </Suspense>
             <Suspense fallback={"Loading..."}>

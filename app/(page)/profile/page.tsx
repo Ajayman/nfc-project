@@ -1,7 +1,7 @@
 'use client'
 import { Box, Grid, Typography, Button } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
-import { deleteCookies } from "../lib/actions";
+import { deleteCookies } from "../../lib/actions";
 import { useState, useEffect } from 'react';
 
 export default function UserProfile() {

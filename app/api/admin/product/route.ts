@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest){
     // read data of req body
     const body = await request.json();
-    const {name,imageUrl, price,discountedPrice, title, description, category, productType} = body;
+    const {name,imageUrl, price,discountedPrice, title, shortDescription, longDescription, category, productType} = body;
 
     // create a user in db
     try{
@@ -15,7 +15,8 @@ export async function POST(request: NextRequest){
             price,
             discountedPrice,
             title,
-            description,
+            shortDescription,
+            longDescription,
             category,
             productType
         }

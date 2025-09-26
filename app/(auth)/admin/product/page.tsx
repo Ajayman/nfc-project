@@ -14,12 +14,14 @@ export default async function EditProduct({
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const totalPages = await fetchProductsPage(query);
-        return (
-            <>
-                <Grid sx={{ mt: 4 }} container spacing={2}>
-                    <ProductItems type="Edit" currentPage={currentPage} query={query} />
-                </Grid>
-                <Pagination totalPages={totalPages}></Pagination>
-            </>
-        )
-    }
+    return (
+        <>
+            <Grid sx={{ mt: 4 }} container spacing={2}>
+                <ProductItems type="Edit" currentPage={currentPage} query={query} />
+            </Grid>
+            <Grid>
+                {/* <Pagination totalPages={totalPages}></Pagination> */}
+            </Grid>
+        </>
+    )
+}

@@ -6,7 +6,7 @@ export type FormState = {
     message: string
 }
 export default async function AddAction(imageUrl, data: FormData): Promise<FormState>{
-    console.log(data);
+    console.log("This is a data", data);
     const formData = Object.fromEntries(data) //converts into regular javascript object by Object.fromEntries
     const mergeFormData = {...formData, imageUrl}
     const parsed = schema.safeParse(mergeFormData) //validation happens even in the server too

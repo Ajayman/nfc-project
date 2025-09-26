@@ -4,7 +4,7 @@ export async function PUT(request: NextRequest,{params}: {params: {productId: st
     // read data of req body
     const {productId} = params;
     const body = await request.json();
-    const {name,imageUrl, price,discountedPrice, title, description, category, productType} = body;
+    const {name,imageUrl, price,discountedPrice, title, shortDescription,longDescription,category, productType} = body;
     try{
     const updateProduct = await prisma.product.update({
         where: {
@@ -16,7 +16,8 @@ export async function PUT(request: NextRequest,{params}: {params: {productId: st
             price,
             discountedPrice,
             title,
-            description,
+            shortDescription,
+            longDescription,
             category,
             productType
         }

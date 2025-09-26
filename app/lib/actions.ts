@@ -1,14 +1,24 @@
 'use server'
 import { cookies } from 'next/headers'
 import prisma from "app/lib/prisma"
-import { checkOutSchema, contactSchema, registerSchema } from './schemas'
+import { checkOutSchema, contactSchema, dashboardLoginSchema, registerSchema } from './schemas'
 import { loginSchema } from './schemas'
 import { redirect } from "next/navigation"
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { UserProvider } from "app/context/user"
 import { z } from 'zod'
 import { schema } from "@app/schemas/ProductSchema"
+import { OrderData } from './schemaType'
+import { orderSchema } from './schemas'
+import { initialState, ActionState } from './utils'
 type Inputs = z.infer<typeof contactSchema>
+// type OrderData = {
+//     fullName: string,
+//     email: string,
+//     phoneNumber: string,
+//     fullAddress: string,
+//     message: string
+// }
 export async function formContactAction(formData: Inputs) {
     const parsed = contactSchema.safeParse(formData)
     if (parsed.success) {
@@ -31,7 +41,7 @@ export async function formContactAction(formData: Inputs) {
         if (res.ok) {
             return { message: "Submission successful" }
         } else {
-            return json.error
+            return {message: "Submission Failed"}
         }
     }
     if (parsed.error) {
@@ -39,11 +49,29 @@ export async function formContactAction(formData: Inputs) {
     }
 }
 
-
-
-export type FormState = {
-    message: string
+export async function BuyProductAction(prevState: ActionState, data: FormData): Promise<ActionState> {
+    const formData = Object.fromEntries(data);
+    try {
+        const res = await fetch(process.env.ROOT_URL + "/api/productOrder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData)
+        })
+        const json = await res.json();
+        return {
+            success: true,
+            message: `Submission Successful`
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: `Failed to create`
+        }
+    }
 }
+
 export async function editProductAction(imageUrl, productId: String, data: FormData): Promise<FormState> {
     const formData = Object.fromEntries(data);
     const mergeFormData = { ...formData, imageUrl }
@@ -71,12 +99,12 @@ export type FormCategoryState = {
     message: String
 }
 
-export async function editCategoryAction(imageUrl, catId: String, data: FormData): Promise<FormCategoryState>{
+export async function editCategoryAction(imageUrl, catId: String, data: FormData): Promise<FormCategoryState> {
     const formData = Object.fromEntries(data);
-    const mergeFormData = {...formData, imageUrl}
+    const mergeFormData = { ...formData, imageUrl }
     console.log(catId);
-    try{
-        const res = await fetch(process.env.ROOT_URL + `/api/admin/category/edit/${catId}`,{
+    try {
+        const res = await fetch(process.env.ROOT_URL + `/api/admin/category/edit/${catId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -85,12 +113,12 @@ export async function editCategoryAction(imageUrl, catId: String, data: FormData
         })
         const json = await res.json()
         console.log(json);
-        if(!json.success){
+        if (!json.success) {
             message: "Cannot Perform Update"
         }
-        return {message: "Updated Successfully"}
-    }catch(error){
-        return { message: `Error on Update: ${error}`  }
+        return { message: "Updated Successfully" }
+    } catch (error) {
+        return { message: `Error on Update: ${error}` }
     }
     redirect("/admin/category")
 }
@@ -139,6 +167,41 @@ export async function loginUserAction(formData: loginInputs) {
         //     redirect("/");
         // }
     }
+}
+
+type loginDashboardInputs = z.infer<typeof dashboardLoginSchema>
+export async function loginDashboardAction(formData: loginDashboardInputs) {
+    const parsed = loginSchema.safeParse(formData)
+    // Get the data off the form
+    // if(!parsed.success){
+    //     return {success:false, error: parsed.error.format()}
+    // }
+    // else{
+    const rawFormData = {
+        username: formData.username,
+        password: formData.password
+    }
+    const res = await fetch(process.env.ROOT_URL + "/api/dashboardLogin", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rawFormData)
+    })
+    const json = await res.json();
+    if (res.ok) {
+        cookies().set("DashboardAuth", json.token, {
+            httpOnly: true, //only works on server
+            expires: Date.now() + 60 * 60 * 1000,
+            path: "/",
+            sameSite: "strict"
+        })
+        redirect('/admin/dashboard')
+    } else {
+        return { success: false, message: 'Invalid Credentials' }
+    }
+
+    // }
 }
 
 
@@ -368,7 +431,7 @@ export async function deleteProduct(productId: String) {
 
 }
 
-export async function deleteCategoryAction(catId: String){
+export async function deleteCategoryAction(catId: String) {
     // const res = await fetch(process.env.ROOT_URL + `/api/admin/category/${catId}`, {next: {revalidate: 3600}})
     try {
         const resultCategory = await prisma.category.delete({
@@ -376,11 +439,11 @@ export async function deleteCategoryAction(catId: String){
                 id: catId
             }
         })
-        if(resultCategory){
+        if (resultCategory) {
             redirect('/admin/category')
         }
         return `Cannot Delete Category ${catId} `
-    }catch(err){
+    } catch (err) {
         console.error(`Error deleting category `, err)
     }
 }
@@ -389,7 +452,7 @@ export async function editProduct(productId: String) {
     redirect(`/admin/product/edit/${productId}`)
 }
 
-export async function editCategoryRedirect(catId: String){
+export async function editCategoryRedirect(catId: String) {
     redirect(`/admin/category/edit/${catId}`)
 }
 

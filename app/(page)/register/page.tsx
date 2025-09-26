@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { registerSchema } from '@/app/lib/schemas';
-import { CreateUserAction } from '@/app/lib/actions';
+import { registerSchema } from '@app/lib/schemas';
+import { CreateUserAction } from '@app/lib/actions';
 import { z } from 'zod';
 
 type Inputs = z.infer<typeof registerSchema>
@@ -56,7 +56,7 @@ export default function RegisterPage() {
                 </Grid>
 
                 <Grid item>
-                    <Link href={`/login`}>Already Have Account</Link>
+                    <Link href={`/dashboardlogin`}>Already Have Account</Link>
                 </Grid>
             </Grid>
         </Box>

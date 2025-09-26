@@ -12,12 +12,26 @@ export const loginSchema = z.object({
     password: z.string()
 })
 
+export const dashboardLoginSchema = z.object({
+    username: z.string(),
+    password: z.string()
+})
+
 export const registerSchema = z.object({
     firstName: z.string().min(2).max(30),
     lastName: z.string().min(2).max(30),
     email: z.string().email(),
     age: z.string(),
     password: z.string()
+})
+
+export const orderSchema = z.object({
+    fullName: z.string().min(2).max(40),
+    email: z.string().email(),
+    phoneNumber: z.string(),
+    fullAddress: z.string().min(5).max(50),
+    message: z.string().min(2).max(200),
+    productId: z.string()
 })
 
 export const  checkOutSchema = z.object({
@@ -42,3 +56,4 @@ export const  checkOutSchema = z.object({
         phoneNumber: z.string()
     })
 })
+

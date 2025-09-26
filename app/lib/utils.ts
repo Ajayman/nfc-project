@@ -1,3 +1,7 @@
+"use server"
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 export const generatePagination = (currentPage: number, totalPages: number) => {
     // If the total number of pages is 7 or less,
     // display all pages without any ellipsis.
@@ -31,3 +35,24 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     ];
   };
   
+
+  export async function dashboardSignOutAction(){
+    cookies().delete("DashboardAuth");
+    redirect('/admin')
+} 
+
+export async function getDashboardCookie(){
+  const cookie = cookies().get("DashboardAuth");
+  return cookie;
+}
+
+export interface ActionState {
+    success: boolean,
+    message: string,
+    errors?: Record<string, string[]>
+}
+
+export const initialState: ActionState = {
+    success: false,
+    message: ''
+}

@@ -22,7 +22,8 @@ model Product {
   price String
   discountedPrice String
   title String
-  description String
+  shortDescription String
+  longDescription String
   category String
   productType String
   cart CartItem?
@@ -60,6 +61,11 @@ model User {
   wishlist Wishlist[]
 }
 
+model AdminUser {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
+}
 
 model About {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
@@ -92,4 +98,16 @@ model CartItem{
   productId String @unique @db.ObjectId
   cart Cart @relation(fields: [cartId], references: [id])
   cartId String @db.ObjectId
+}
+
+
+model OrderProduct{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  productId String
+  createdAt DateTime @default(now())
+  fullName String
+  email String
+  phoneNumber String
+  fullAddress String
+  message String
 }

@@ -21,12 +21,14 @@ export default async function Products({
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const totalPages = await fetchProductsPage(query);
+    console.log(totalPages);
     return (
         <Suspense fallback={<Loading />}>
+        
             <Grid sx={{ mt: 4 }} container spacing={2}>
                 <ProductItems type="Buy" currentPage={currentPage} query={query} />
             </Grid>
-            <Pagination totalPages={totalPages}></Pagination>
+            {/* <Pagination totalPages={totalPages}></Pagination> */}
         </Suspense>
     )
 }

@@ -9,7 +9,7 @@ import { fetchProductType } from '../lib/actions'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import ProductCard from '../components/FilterProducts'
-import { ProductCardsSkeleton } from '@components/skeletons'
+
 export const metadata: Metadata = {
   title: 'Home | NFC'
 }
@@ -36,45 +36,45 @@ export default async function Home() {
       <Grid container sx={{ pb: 2 }}>
         <Link variant='h5' href='/category' color='black' underline='hover'>Categories</Link>
       </Grid>
-      <Suspense fallback={<p>Loading</p>}>
+      {/* <Suspense fallback={<p>Loading</p>}> */}
         <CategoryCarousel />
-      </Suspense>
+      {/* </Suspense> */}
       <Grid container spacing={2}>
         <Grid item xs={12} sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>New Items</Typography>
         </Grid>
-        <Suspense fallback={<p>Loading</p>}>
+        {/* <Suspense fallback={<p>Loading</p>}> */}
           {newProducts.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />
             </Grid>
           ))}
-        </Suspense>
+        {/* </Suspense> */}
       </Grid >
 
       <Grid container spacing={2}>
         <Grid xs={12} item sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>Trending Products</Typography>
         </Grid>
-        <Suspense fallback={<p>Loading</p>}>
+        {/* <Suspense fallback={<p>Loading</p>}> */}
           {trendingProduct.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />
             </Grid>
           ))}
-        </Suspense>
+        {/* </Suspense> */}
       </Grid>
       <Grid container spacing={2}>
         <Grid xs={12} item sx={{ pb: 2, mt: 4 }}>
           <Typography variant='h5'>Old Products</Typography>
         </Grid>
-        <Suspense fallback={<p>Loading</p>}>
+        {/* <Suspense fallback={<p>Loading</p>}> */}
           {oldProduct.map((item, i) => (
             <Grid item xs={6} sm={4} md={3} key={i}>
               <ProductCard item={item} />
             </Grid>
           ))}
-        </Suspense>
+        {/* </Suspense> */}
       </Grid>
     </Box >
   );

@@ -5,12 +5,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useFormState } from 'react-hook-form';
+import { useForm, Controller, useFormState } from 'react-hook-form';
 import { schema } from "@app/schemas/ProductSchema"
 import { editProductAction } from "@app/lib/actions"
 import { UploadButton } from 'app/utils/uploadthing';
 import useSWR from 'swr'
 import Image from 'next/image';
+import QuillEditor from '@components/quillEditor';
 type FormData = {
     name: string,
     imageKey: string,
@@ -18,7 +19,8 @@ type FormData = {
     price: string,
     discountedPrice: string,
     title: string,
-    description: string,
+    shortDescription: string,
+    longDescription: string,
     category: string,
     productType: string
 }
@@ -29,6 +31,7 @@ export default function EditProduct({ params }: { params: { productId: string } 
     const { data: categoryList } = useSWR('/api/categories', fetcher)
     const [categories, setCategories] = useState([{}]);
     const [imageUrl, setImageUrl] = useState([""]);
+    const [longDescriptionValue, setLongDescriptionValue] = useState("");
     useEffect(()=> {
         if(categoryList){
             const categories = categoryList.data.map(obj=>obj.name)
@@ -45,8 +48,7 @@ export default function EditProduct({ params }: { params: { productId: string } 
     // })
     const [category, setCategory] = useState("");
     const editProduct = editProductAction.bind(null,imageUrl, productId)
-    const form = useForm<FormData>({ resolver: zodResolver(schema) });
-    const { register, handleSubmit, formState: { errors } } = form;
+    const { register,setValue, control,  formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
     const formRef = useRef<HTMLFormElement>(null)
     const handleCategoryChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
@@ -107,9 +109,33 @@ export default function EditProduct({ params }: { params: { productId: string } 
                     <TextField id='outlined-basic' label="title" variant='outlined' defaultValue={data.data.title} {...register("title")}/>
                 </Grid>
                 <Grid>
-                    {errors.description && <span>{errors.description.message}</span>}
-                    <TextField id='outlined-basic' label="description" variant='outlined' defaultValue={data.data.description} {...register("description")}/>
-                </Grid>
+                        {errors.shortDescription && <span>{errors.shortDescription.message}</span>}
+                        <TextField id='outlined-basic' label="Short Description" variant='outlined' defaultValue={data.data.shortDescription} {...register("shortDescription")} />
+                    </Grid>
+                    <Grid>
+                        {errors.longDescription && <span>{errors.longDescription.message}</span>}
+                        {/* Hidden input to capture longDescription value */}
+                        <input 
+                            type="hidden" 
+                            name="longDescription" 
+                            value={longDescriptionValue}
+                        />
+                        <Controller
+                            name="longDescription"
+                            control={control}
+                            rules={{ required: "Long Description is required" }}
+                            render={({ field }) => (
+                                <QuillEditor value={field.value || ""} 
+                                onChange={(value) => {
+                                    console.log("Controller onChange:", value); 
+                                    field.onChange(value);
+                                    setLongDescriptionValue(value); // Update hidden input
+                                    setValue("longDescription", value); // Update form state
+                                }} />
+                            )}
+                            defaultValue={data.data.longDescription}
+                        />
+                    </Grid>
                 <Grid>
                     <FormControl fullWidth>
                         {errors.category && <span>{errors.category.message}</span>}

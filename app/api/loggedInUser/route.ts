@@ -3,7 +3,6 @@ import prisma from '@app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose'
 export async function GET(request: NextRequest) {
-    console.log("funciton called")
     const token = cookies().get("Authorization")?.value;
     if (!token) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

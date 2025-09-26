@@ -23,8 +23,7 @@ export default function AboutPage() {
     const [ourStoryImageUrl, setOurStoryImageUrl] = useState("")
 
     const addAbout = AddAction.bind(null, aboutTitleImageUrl, designerImageUrl, ourStoryImageUrl)
-    const form = useForm<FormData>({ resolver: zodResolver(schema) });
-    const { register, handleSubmit, formState: { errors } } = form;
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
     const formRef = useRef<HTMLFormElement>(null)
     return (
         <Box

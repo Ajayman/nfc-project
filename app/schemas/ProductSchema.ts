@@ -6,7 +6,8 @@ export const schema = z.object({
     price: z.string(),
     discountedPrice: z.string(),
     title: z.string().min(5),
-    description:z.string().min(5),
+    shortDescription:z.string().min(5),
+    longDescription: z.string().default("Long Description"),
     category: z.string(),
     productType: z.string()
 })

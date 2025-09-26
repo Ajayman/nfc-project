@@ -20,13 +20,12 @@ import Search from '../components/Search'
 import { getCookie } from 'app/lib/actions';
 import DrawerList from './drawer';
 import CartItem from './cartItem';
-import {useContext} from "react"
+import { useContext } from "react"
 import { UserContext } from 'app/context/user';
-// import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query'
-
-// const QueryClient = new QueryClient()
+import useSWR from 'swr';
 const settings = ['Profile', 'Account', 'Sign Up', 'Logout'];
 
+const fetcher = url => fetch(url).then(r => r.json())
 export default function ResponsiveAppBar({ children }) {
   const loggedUser = useContext(UserContext);
   const [navMenu, setSetNavMenu] = React.useState(pagesMenu)
@@ -39,13 +38,14 @@ export default function ResponsiveAppBar({ children }) {
   useEffect(() => {
     getCookie('Authorization').then(val => setCookieValue(val.value));
   }, "")
-  useEffect(()=>{
-    const getCartItem = async()=> {
-      const res = await CartItem();
-      setCartItem(res);
-    }
-    getCartItem();
-  },[])
+  // useEffect(() => {
+  //   const getCartItem = async () => {
+  //     const res = await CartItem();
+  //     setCartItem(res);
+  //   }
+  //   getCartItem();
+  // }, [])
+  // const { data, isLoading, error } = useSWR('/api/categories', fetcher)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -71,25 +71,28 @@ export default function ResponsiveAppBar({ children }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img src="Nina-logo.jpg" width="60px" alt="nina-logo" />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            <Link href="/" underline="none" color="white" sx={{ ml: 2 }}>NFC</Link>
-          </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Link href="/" underline="none" color="white" sx={{ ml: 2 }}>
+            <Typography
+              variant="h6"
+              noWrap
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              NFC
+            </Typography>
+          </Link>
+
+
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -124,25 +127,28 @@ export default function ResponsiveAppBar({ children }) {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            <Link href="/">NFC</Link>
-          </Typography>
+          </Box> */}
+
+          <Link href="/">
+            <Typography
+              variant="h5"
+              noWrap
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              NFC
+            </Typography>
+          </Link>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {navMenu.map((page) => (
               <Button
@@ -156,11 +162,11 @@ export default function ResponsiveAppBar({ children }) {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            <Search placeholder="Search Products..."/>
+            <Search placeholder="Search Products..." />
             {children}
-            <IconButton aria-label='shopping cart' onClick={toggleDrawer(true)} >
+            {/* <IconButton aria-label='shopping cart' onClick={toggleDrawer(true)} >
               <ShoppingCartOutlinedIcon />
-            </IconButton>
+            </IconButton> */}
           </Box>
         </Toolbar>
         <Drawer open={open} anchor='right' onClose={toggleDrawer(false)}>
