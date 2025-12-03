@@ -202,8 +202,8 @@ export default function ProductDetailContent({ item }: Product) {
             </Box> */}
             {/* <ChooseVariant type="Color" /> */}
             <Grid container sx={{ mt: 3, display: 'flex', gap: 5 }}>
-                <Button variant='outlined' color='success' sx={{ flexGrow: '1' }} onClick={handleClickOpen}>Buy Now</Button>
-                <Dialog
+                {/* <Button variant='outlined' color='success' sx={{ flexGrow: '1' }} onClick={handleClickOpen}>Buy Now</Button> */}
+                {/* <Dialog
                     open={open}
                     onClose={handleClose}
                     fullWidth={true}
@@ -249,7 +249,7 @@ export default function ProductDetailContent({ item }: Product) {
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type='submit'>Submit</Button>
                     </DialogActions>
-                </Dialog>
+                </Dialog> */}
             </Grid>
         </Grid >
     )
