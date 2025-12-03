@@ -9,10 +9,10 @@ export async function DELETE(request: NextRequest, response: NextResponse, {para
                 id: catId
             }
         })
-        // if(resultCategory){
-        //     return NextResponse.json({message: `deleted Category ${catId}`})
-        // }
-        // return `Cannot Delete Category ${catId} `
+        if(resultCategory){
+            return NextResponse.json({message: `deleted Category ${catId}`})
+        }
+        return NextResponse.json({message: "Cannot Delete Category ${catId}" })
     }catch(err){
         console.error(`Error deleting category `, err)
     }
