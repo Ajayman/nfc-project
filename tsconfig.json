@@ -30,14 +30,14 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": false
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/(page)/about/page.tsx", "app/products/[productId]", "app/components/SwiperCarousel.js", "app/components/categoryCarousel.js"  ],
+    "**/*.tsx", "app/page.jsx", "app/products/page.tsx", "app/components/SearchProducts.js", "app/api/searchProduct/route.js", "app/(page)/about/page.tsx", "app/products/[productId]", "app/components/SwiperCarousel.js", "app/components/categoryCarousel.js"  ],
   "exclude": [
     "node_modules"
   ]
